@@ -40,7 +40,7 @@ function App() {
             </div>
           </div>
         </div>
-
+        
         {/* Toronto picture */}
         <div className="w-full">
           <img 
@@ -108,78 +108,179 @@ function App() {
         </div>
 
       </div>
-      {/* PROJECT CARDS - ADD THIS SECTION */}
-        <div className="w-11/12 mx-auto mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Project Card 1 */}
-            <div className="cursor-pointer group">
-              <div className="relative overflow-hidden rounded-xl bg-gray-200">
-                <img 
-                  src={linkedin}
-                  alt="Project 1"
-                  className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
-                />
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
-                  11:42
-                </div>
-              </div>
-              <div className="flex gap-3 mt-3">
-                <div className="flex-1">
-                  <h3 className="font-medium text-sm line-clamp-2">
-                    E-Commerce Website - Full Stack Application
-                  </h3>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <span>208K views</span>
-                    <span>•</span>
-                    <span>1 month ago</span>
-                  </div>
-                </div>
-                <button className="text-gray-600 hover:text-gray-900 h-6">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="3" r="1.5"/>
-                    <circle cx="8" cy="8" r="1.5"/>
-                    <circle cx="8" cy="13" r="1.5"/>
-                  </svg>
-                </button>
+
+      {/* PROJECT CARDS */}
+      <div className="w-11/12 mx-auto mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Project Card 1 */}
+          <div className="cursor-pointer group">
+            <div className="relative overflow-hidden rounded-xl bg-gray-200">
+              <img 
+                src={linkedin}
+                alt="Project 1"
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
+                11:42
               </div>
             </div>
-
-            {/* Project Card 2 */}
-            <div className="cursor-pointer group">
-              <div className="relative overflow-hidden rounded-xl bg-gray-200">
-                <img 
-                  src={github}
-                  alt="Project 2"
-                  className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
-                />
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
-                  12:44
+            <div className="flex gap-3 mt-3">
+              <div className="flex-1">
+                <h3 className="font-medium text-sm line-clamp-2">
+                  AI Powered Typing Test Application
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                  <span>Author: Muiz Jafri</span>
                 </div>
               </div>
-              <div className="flex gap-3 mt-3">
-                <div className="flex-1">
-                  <h3 className="font-medium text-sm line-clamp-2">
-                    Weather App with Real-Time Data
-                  </h3>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <span>74K views</span>
-                    <span>•</span>
-                    <span>2 weeks ago</span>
-                  </div>
-                </div>
-                <button className="text-gray-600 hover:text-gray-900 h-6">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="3" r="1.5"/>
-                    <circle cx="8" cy="8" r="1.5"/>
-                    <circle cx="8" cy="13" r="1.5"/>
-                  </svg>
-                </button>
+              <button className="text-gray-600 hover:text-gray-900 h-6">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                  <circle cx="8" cy="3" r="1.5"/>
+                  <circle cx="8" cy="8" r="1.5"/>
+                  <circle cx="8" cy="13" r="1.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          {/* Project Card 2 */}
+          <div className="cursor-pointer group">
+            <div className="relative overflow-hidden rounded-xl bg-gray-200">
+              <img 
+                src={github}
+                alt="Project 2"
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
+                12:44
               </div>
             </div>
-
-            {/* Add more project cards by copying the structure above */}
+            <div className="flex gap-3 mt-3">
+              <div className="flex-1">
+                <h3 className="font-medium text-sm line-clamp-2">
+                  Real-Time Object Recognition & AI Assistant
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                </div>
+              </div>
+              <button className="text-gray-600 hover:text-gray-900 h-6">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                  <circle cx="8" cy="3" r="1.5"/>
+                  <circle cx="8" cy="8" r="1.5"/>
+                  <circle cx="8" cy="13" r="1.5"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* EXPERIENCE SECTION */}
+      <div className="w-full mt-6">
+        <div className="w-11/12 mx-auto"> 
+        <h2 className="text-xl font-semibold mb-4">Experience</h2>
+        </div>
+      {/* Experience CARDS */}
+      <div className="w-11/12 mx-auto mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Project Card 1 */}
+          <div className="cursor-pointer group">
+            <div className="relative overflow-hidden rounded-xl bg-gray-200">
+              <img 
+                src={linkedin}
+                alt="Project 1"
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
+                11:42
+              </div>
+            </div>
+            <div className="flex gap-3 mt-3">
+              <div className="flex-1">
+                <h3 className="font-medium text-sm line-clamp-2">
+                  Software Engineer 
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                  <span>Air Hawk Solutions</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                 
+                </div>
+              </div>
+              <button className="text-gray-600 hover:text-gray-900 h-6">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                  <circle cx="8" cy="3" r="1.5"/>
+                  <circle cx="8" cy="8" r="1.5"/>
+                  <circle cx="8" cy="13" r="1.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          {/* Project Card 2 */}
+          <div className="cursor-pointer group">
+            <div className="relative overflow-hidden rounded-xl bg-gray-200">
+              <img 
+                src={github}
+                alt="Project 2"
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
+                12:44
+              </div>
+            </div>
+            <div className="flex gap-3 mt-3">
+              <div className="flex-1">
+                <h3 className="font-medium text-sm line-clamp-2">
+                  Competitions Organizer
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                  <span>At MIST Toronto</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                </div>
+              </div>
+              <button className="text-gray-600 hover:text-gray-900 h-6">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                  <circle cx="8" cy="3" r="1.5"/>
+                  <circle cx="8" cy="8" r="1.5"/>
+                  <circle cx="8" cy="13" r="1.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+                    <div className="cursor-pointer group">
+            <div className="relative overflow-hidden rounded-xl bg-gray-200">
+              <img 
+                src={github}
+                alt="Project 2"
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-1.5 py-0.5 rounded">
+                12:44
+              </div>
+            </div>
+            <div className="flex gap-3 mt-3">
+              <div className="flex-1">
+                <h3 className="font-medium text-sm line-clamp-2">
+                  Integration Camp Counsellor
+                </h3>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                  <span>City of Pickering</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                </div>
+              </div>
+              <button className="text-gray-600 hover:text-gray-900 h-6">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                  <circle cx="8" cy="3" r="1.5"/>
+                  <circle cx="8" cy="8" r="1.5"/>
+                  <circle cx="8" cy="13" r="1.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
       {isModalOpen && (<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden shadow-2xl">
             {/* Modal Header */}
@@ -226,7 +327,6 @@ function App() {
                   I hope you enjoy my projects 🔥
                 </p>
               </div>
-
               {/* Links Section */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-3">Links</h3>
@@ -251,7 +351,6 @@ function App() {
                   </a>
                 </div>
               </div>
-
               {/* More Info Section (Collapsible) */}
               <div>
                 <button className="flex items-center justify-between w-full text-left">
