@@ -2,7 +2,7 @@ import github from './assets/githublogo.png'
 import linkedin from './assets/linkedinlogo.png'
 import face from './assets/myface.png'
 import Toronto from './assets/Toronto.png'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import MuizIntro from './MuizIntro';
 import emailjs from '@emailjs/browser';
 
@@ -18,8 +18,9 @@ interface Project {
   author: string;
   tag: string;
   color: string;
+  link: string;
+  repo: string;
 }
-
 interface Experience {
   id: number;
   src: string;
@@ -28,71 +29,78 @@ interface Experience {
   duration: string;
   tag: string;
   color: string;
+  link: string;
 }
 
-const STACK_OFFSET = 30;
-
-function StackedCards<T extends { id: number }>({
-  items,
-  renderCard,
-}: {
-  items: T[];
-  renderCard: (item: T, index: number) => React.ReactNode;
-}) {
-  return (
-    <div style={{ paddingBottom: `${items.length * STACK_OFFSET}px` }}>
-      {items.map((item, i) => (
-        <div
-          key={item.id}
-          style={{
-            position: 'sticky',
-            top: `${80 + i * STACK_OFFSET}px`,
-            zIndex: i + 1,
-            marginBottom: '1rem',
-            transition: 'transform 0.2s ease',
-          }}
-          className="hover:scale-[1.02] hover:z-50"
-        >
-          {renderCard(item, i)}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function ProjectCard({ item, index }: { item: Project; index: number }) {
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+      className="rounded-xl overflow-hidden border border-gray-800 w-full group cursor-pointer transition-all duration-300 hover:border-blue-500/50 hover:shadow-blue-500/20"
       style={{
-        background: `linear-gradient(135deg, ${item.color} 0%, #111827 100%)`,
+        background: '#111827',
         boxShadow: `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`,
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 30px rgba(59,130,246,0.25), 0 20px 40px rgba(0,0,0,0.6)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`;
       }}
     >
-      <div className="flex flex-col md:flex-row">
-        <div className="relative md:w-2/5 overflow-hidden">
-          <img src={item.src} alt={item.title} className="w-full h-48 md:h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/30" />
-          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-mono px-2 py-1 rounded-lg">
-            {item.duration}
-          </div>
+      {/* Thumbnail */}
+      <div className="relative w-full h-48 overflow-hidden">
+        <img
+          src={item.src}
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Duration badge */}
+        <div className="absolute bottom-1.5 right-1.5 bg-black/90 text-white text-xs font-mono font-bold px-1.5 py-0.5 rounded">
+          {item.duration}
         </div>
-        <div className="flex-1 p-6 flex flex-col justify-between">
-          <div>
-            <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mb-3">
-              {item.tag}
-            </span>
-            <h3 className="text-white font-bold text-lg leading-tight mb-2">{item.title}</h3>
-            <p className="text-gray-400 text-sm">by {item.author}</p>
-          </div>
-          <div className="mt-4 flex gap-2">
-            <button className="bg-blue-600 hover:bg-blue-500 transition text-white text-xs px-4 py-2 rounded-full font-medium">
-              View Project
-            </button>
-            <button className="bg-white/10 hover:bg-white/20 transition text-white text-xs px-4 py-2 rounded-full font-medium">
-              Source Code
-            </button>
-          </div>
+        {/* Tag badge on image top-left */}
+        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="text-xs text-blue-400 border border-blue-400/40 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-full">
+            {item.tag}
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col justify-between p-4">
+        <div>
+          {/* Animated underline on title */}
+          <h3 className="text-white font-semibold text-base leading-snug line-clamp-2 mb-1 relative inline-block">
+            {item.title}
+          </h3>
+          <p className="text-gray-500 text-xs mt-1">{item.author}</p>
+
+          {/* Tag below (visible when not hovering) */}
+          <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mt-2 group-hover:opacity-0 transition-opacity duration-200">
+            {item.tag}
+          </span>
+        </div>
+
+        {/* Buttons slide up slightly on hover */}
+        <div className="flex gap-2 mt-4 transition-transform duration-300 group-hover:-translate-y-0.5">
+          <button
+            onClick={() => window.open(item.link, '_blank')}
+            className="bg-blue-600 hover:bg-blue-500 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-blue-500/30"
+          >
+            View Project
+          </button>
+          <button
+            onClick={() => window.open(item.repo, '_blank')}
+            className="bg-white/10 hover:bg-white/20 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium border border-white/10 hover:border-white/30"
+          >
+            Source
+          </button>
         </div>
       </div>
     </div>
@@ -102,34 +110,138 @@ function ProjectCard({ item, index }: { item: Project; index: number }) {
 function ExperienceCard({ item, index }: { item: Experience; index: number }) {
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+      className="rounded-xl overflow-hidden border border-gray-800 w-full group cursor-pointer transition-all duration-300 hover:border-blue-500/50"
       style={{
-        background: `linear-gradient(135deg, ${item.color} 0%, #111827 100%)`,
+        background: '#111827',
         boxShadow: `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`,
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 30px rgba(59,130,246,0.25), 0 20px 40px rgba(0,0,0,0.6)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`;
       }}
     >
-      <div className="flex flex-col md:flex-row">
-        <div className="relative md:w-2/5 overflow-hidden">
-          <img src={item.src} alt={item.title} className="w-full h-48 md:h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/30" />
-          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-mono px-2 py-1 rounded-lg">
-            {item.duration}
-          </div>
+      {/* Thumbnail */}
+      <div className="relative w-full h-48 overflow-hidden">
+        <img
+          src={item.src}
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute bottom-1.5 right-1.5 bg-black/90 text-white text-xs font-mono font-bold px-1.5 py-0.5 rounded">
+          {item.duration}
         </div>
-        <div className="flex-1 p-6 flex flex-col justify-between">
-          <div>
-            <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mb-3">
-              {item.tag}
-            </span>
-            <h3 className="text-white font-bold text-lg leading-tight mb-1">{item.title}</h3>
-            <p className="text-gray-400 text-sm font-medium">{item.company}</p>
-          </div>
-          <div className="mt-4">
-            <button className="bg-blue-600 hover:bg-blue-500 transition text-white text-xs px-4 py-2 rounded-full font-medium">
-              Learn More
-            </button>
-          </div>
+        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="text-xs text-blue-400 border border-blue-400/40 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-full">
+            {item.tag}
+          </span>
         </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col justify-between p-4">
+        <div>
+          <h3 className="text-white font-semibold text-base leading-snug mb-1">{item.title}</h3>
+          <p className="text-gray-500 text-sm mt-1">{item.company}</p>
+          <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mt-2 group-hover:opacity-0 transition-opacity duration-200">
+            {item.tag}
+          </span>
+        </div>
+        <div className="mt-4 transition-transform duration-300 group-hover:-translate-y-0.5">
+          <button
+            onClick={() => window.open(item.link, '_blank')}
+            className="bg-blue-600 hover:bg-blue-500 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-blue-500/30"
+          >
+            Learn More
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectsTab({ projects }: { projects: Project[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateArrows = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    const el = scrollRef.current;
+    el?.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    return () => {
+      el?.removeEventListener('scroll', updateArrows);
+      window.removeEventListener('resize', updateArrows);
+    };
+  }, []);
+
+  const scroll = (dir: 'left' | 'right') => {
+    scrollRef.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="w-11/12 mx-auto mt-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-white">Projects ({projects.length})</h2>
+        <span className="text-xs text-gray-500 italic">↓ scroll to explore</span>
+      </div>
+
+      <div className="relative">
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        <div
+          ref={scrollRef}
+          className="grid grid-cols-3 gap-4 overflow-x-auto pb-2"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {projects.map((item, index) => (
+            <ProjectCard key={item.id} item={item} index={index} />
+          ))}
+        </div>
+
+        {canScrollRight && (
+          <button
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      <div className="flex justify-center mt-5 mb-8">
+        <a href="https://github.com/muizjafri?tab=repositories" target="_blank" rel="noopener noreferrer">
+          <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
+            View More Projects
+            <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </a>
       </div>
     </div>
   );
@@ -144,6 +256,8 @@ const projects: Project[] = [
     author: "Muiz Jafri",
     tag: "Machine Learning",
     color: "#1a2744",
+    link: "https://your-live-demo-url.com",
+    repo: "https://github.com/muizjafri/your-repo",
   },
   {
     id: 2,
@@ -153,6 +267,8 @@ const projects: Project[] = [
     author: "Muiz Jafri",
     tag: "Computer Vision",
     color: "#0f2233",
+    link: "https://your-live-demo-url.com",
+    repo: "https://github.com/muizjafri/your-repo",
   },
 ];
 
@@ -165,6 +281,7 @@ const experiences: Experience[] = [
     duration: "11:42",
     tag: "Engineering",
     color: "#1a2744",
+    link: "https://your-company-url.com",
   },
   {
     id: 2,
@@ -174,6 +291,7 @@ const experiences: Experience[] = [
     duration: "12:44",
     tag: "Leadership",
     color: "#0f2233",
+    link: "https://your-company-url.com",
   },
   {
     id: 3,
@@ -183,6 +301,7 @@ const experiences: Experience[] = [
     duration: "12:44",
     tag: "Community",
     color: "#122033",
+    link: "https://your-company-url.com",
   },
 ];
 
@@ -199,11 +318,7 @@ function App() {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
+        { name: formData.name, email: formData.email, message: formData.message },
         EMAILJS_PUBLIC_KEY
       );
       setStatus('sent');
@@ -218,7 +333,9 @@ function App() {
       {!introComplete && <MuizIntro onComplete={() => setIntroComplete(true)} />}
 
       <div className="flex flex-col items-center justify-center gap-8">
-        {/* Search Bar */}
+
+        
+       {/* Search Bar 
         <div className="w-full my-4 max-w-2xl px-4">
           <div className="flex items-center border-2 border-gray-700 rounded-full shadow-lg overflow-hidden focus-within:border-blue-500 bg-gray-900">
             <input
@@ -233,8 +350,8 @@ function App() {
               </svg>
             </div>
           </div>
-        </div>
-
+        </div> */}
+        
         {/* Toronto Banner */}
         <div className="w-full">
           <img src={Toronto} alt="Toronto" className="w-11/12 h-64 object-cover object-[50%_45%] mx-auto rounded-xl" />
@@ -288,8 +405,7 @@ function App() {
               <span className="text-xs text-blue-400 uppercase tracking-widest mb-3">// whoami</span>
               <p className="text-gray-300 text-sm leading-relaxed">
                 Third-year <span className="text-white font-semibold">Computer Engineering</span> student
-                at Toronto Metropolitan University. Passionate about building web apps and
-                exploring new technologies.
+                at Toronto Metropolitan University. Passionate about building web apps and exploring new technologies.
               </p>
               <p className="text-xs text-gray-600 mt-4">Toronto, ON 🍁</p>
             </div>
@@ -315,7 +431,6 @@ function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Tech Focus */}
             <div className="bg-gray-900 border border-gray-800 text-white rounded-2xl p-6">
               <span className="text-xs text-blue-400 uppercase tracking-widest">Tech focus</span>
               <div className="mt-4 flex flex-col gap-3">
@@ -334,7 +449,6 @@ function App() {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col gap-3">
               <span className="text-xs text-blue-400 uppercase tracking-widest">// contact me</span>
               <input
@@ -373,28 +487,7 @@ function App() {
       )}
 
       {/* Projects Tab */}
-      {activeTab === 'projects' && (
-        <div className="w-11/12 mx-auto mt-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">Projects ({projects.length})</h2>
-            <span className="text-xs text-gray-500 italic">↓ scroll to explore</span>
-          </div>
-          <StackedCards
-            items={projects}
-            renderCard={(item, index) => <ProjectCard item={item} index={index} />}
-          />
-          <div className="flex justify-center mt-5 mb-8">
-            <a href="https://github.com/muizjafri?tab=repositories" target="_blank" rel="noopener noreferrer">
-              <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
-                View More Projects
-                <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
-            </a>
-          </div>
-        </div>
-      )}
+      {activeTab === 'projects' && <ProjectsTab projects={projects} />}
 
       {/* Experience Tab */}
       {activeTab === 'experience' && (
@@ -403,10 +496,11 @@ function App() {
             <h2 className="text-xl font-semibold text-white">Experience ({experiences.length})</h2>
             <span className="text-xs text-gray-500 italic">↓ scroll to explore</span>
           </div>
-          <StackedCards
-            items={experiences}
-            renderCard={(item, index) => <ExperienceCard item={item} index={index} />}
-          />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {experiences.map((item, index) => (
+              <ExperienceCard key={item.id} item={item} index={index} />
+            ))}
+          </div>
           <div className="flex justify-center mt-5 mb-8">
             <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
               <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
