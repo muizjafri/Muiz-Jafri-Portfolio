@@ -1,8 +1,7 @@
 import github from './assets/githublogo.png'
 import linkedin from './assets/linkedinlogo.png'
 import face from './assets/myface.png'
-import Toronto from './assets/Toronto.png'
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MuizIntro from './MuizIntro';
 import emailjs from '@emailjs/browser';
 
@@ -16,11 +15,14 @@ interface Project {
   title: string;
   duration: string;
   author: string;
-  tag: string;
+  tag: string [];
   color: string;
   link: string;
   repo: string;
+  views: string;
+  ago: string;
 }
+
 interface Experience {
   id: number;
   src: string;
@@ -30,286 +32,484 @@ interface Experience {
   tag: string;
   color: string;
   link: string;
+  views: string;
+  ago: string;
 }
 
+// ─── Channel Banner ──────────────────────────────────────────────────────────
 
-function ProjectCard({ item, index }: { item: Project; index: number }) {
+function ChannelBanner() {
+  return (
+    <div className="w-full relative overflow-hidden rounded-xl mx-auto" style={{ height: '180px' }}>
+      {/* Dark base */}
+      <div className="absolute inset-0" style={{ background: '#080c14' }} />
+
+      {/* Dot-grid pattern */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(59,130,246,0.25) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+
+      {/* Blue glow blobs */}
+      <div
+        className="absolute"
+        style={{
+          width: '340px', height: '340px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)',
+          top: '-120px', left: '-60px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        className="absolute"
+        style={{
+          width: '260px', height: '260px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%)',
+          bottom: '-80px', right: '80px',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+        <h1
+          className="text-white font-bold tracking-tight"
+          style={{ fontSize: '2.2rem', letterSpacing: '-0.02em', textShadow: '0 2px 24px rgba(59,130,246,0.35)' }}
+        >
+          Muiz Jafri
+        </h1>
+        <p className="text-sm" style={{ color: 'rgba(148,163,184,0.9)', letterSpacing: '0.08em' }}>
+          COMPUTER ENGINEERING &nbsp;·&nbsp; FULL STACK &nbsp;·&nbsp; TORONTO
+        </p>
+      </div>
+
+      {/* Bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{ height: '48px', background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.55))' }}
+      />
+    </div>
+  );
+}
+
+// ─── Filter Chips ─────────────────────────────────────────────────────────────
+
+function FilterChips({
+  chips,
+  active,
+  onChange,
+}: {
+  chips: { label: string; value: string }[];
+  active: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="flex gap-2 flex-wrap mb-6">
+      {chips.map((c) => (
+        <button
+          key={c.value}
+          onClick={() => onChange(c.value)}
+          className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
+          style={{
+            background: active === c.value ? '#fff' : 'rgba(255,255,255,0.07)',
+            color: active === c.value ? '#000' : 'rgba(255,255,255,0.6)',
+            border: active === c.value ? '1px solid #fff' : '1px solid rgba(255,255,255,0.12)',
+          }}
+        >
+          {c.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Project Card ─────────────────────────────────────────────────────────────
+
+function ProjectCard({
+  item,
+  index,
+  isWatchLater,
+  onToggleWL,
+}: {
+  item: Project;
+  index: number;
+  isWatchLater: boolean;
+  onToggleWL: (id: number) => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <div
-      className="rounded-xl overflow-hidden border border-gray-800 w-full group cursor-pointer transition-all duration-300 hover:border-blue-500/50 hover:shadow-blue-500/20"
-      style={{
-        background: '#111827',
-        boxShadow: `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`,
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)';
-        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 30px rgba(59,130,246,0.25), 0 20px 40px rgba(0,0,0,0.6)';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`;
-      }}
+      className="flex flex-col"
     >
       {/* Thumbnail */}
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full rounded-xl overflow-hidden cursor-pointer" 
+      style={{ aspectRatio: '16/9' }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={() => window.open(item.link, '_blank')}>
         <img
           src={item.src}
           alt={item.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500"
+          style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
         />
-        {/* Gradient overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Play overlay */}
+        <div
+          className="absolute inset-0 flex items-center justify-center transition-opacity duration-200"
+          style={{ background: 'rgba(0,0,0,0.42)', opacity: hovered ? 1 : 0 }}
+        >
+          <div
+            className="flex items-center justify-center rounded-full"
+            style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.92)' }}
+          >
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="#111">
+              <polygon points="0,0 14,8 0,16" />
+            </svg>
+          </div>
+        </div>
+
         {/* Duration badge */}
-        <div className="absolute bottom-1.5 right-1.5 bg-black/90 text-white text-xs font-mono font-bold px-1.5 py-0.5 rounded">
+        <div
+          className="absolute bottom-2 right-2 text-white rounded"
+          style={{ background: 'rgba(0,0,0,0.85)', fontSize: '11px', padding: '2px 6px', fontFamily: 'monospace', fontWeight: 700 }}
+        >
           {item.duration}
         </div>
-        {/* Tag badge on image top-left */}
-        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="text-xs text-blue-400 border border-blue-400/40 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-full">
-            {item.tag}
-          </span>
-        </div>
+
+        {/* Watch Later button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); onToggleWL(item.id); }}
+          className="absolute top-2 right-2 rounded transition-all duration-150 flex items-center justify-center"
+          style={{
+            width: 28, height: 28,
+            background: isWatchLater ? 'rgba(239,68,68,0.88)' : 'rgba(0,0,0,0.7)',
+            opacity: hovered || isWatchLater ? 1 : 0,
+            border: 'none',
+          }}
+          title={isWatchLater ? 'Remove from Watch Later' : 'Save to Watch Later'}
+        >
+          {isWatchLater ? (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          ) : (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          )}
+        </button>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col justify-between p-4">
-        <div>
-          {/* Animated underline on title */}
-          <h3 className="text-white font-semibold text-base leading-snug line-clamp-2 mb-1 relative inline-block">
+      {/* Meta row */}
+      <div className="flex gap-3 mt-3">
+        {/* Mini avatar */}
+        <div
+          className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold"
+          style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}
+        >
+          MJ
+        </div>
+
+        <div className="flex flex-col min-w-0">
+          <p
+            className="text-white font-medium leading-snug"
+            style={{ fontSize: 13, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
             {item.title}
-          </h3>
-          <p className="text-gray-500 text-xs mt-1">{item.author}</p>
+          </p>
+          <p className="text-gray-500 mt-0.5" style={{ fontSize: 11 }}>
+            {item.author}
+          </p>
+          <p className="text-gray-500" style={{ fontSize: 11 }}>
+            {item.views} &nbsp;·&nbsp; {item.ago}
+          </p>
 
-          {/* Tag below (visible when not hovering) */}
-          <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mt-2 group-hover:opacity-0 transition-opacity duration-200">
-            {item.tag}
-          </span>
+          {/* Tag pill */}
+          <div className="flex flex-wrap gap-1 mt-1">
+            {item.tag.map((t) => (
+              <span
+                key={t}
+                className="self-start rounded-full"
+                style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
-
-        {/* Buttons slide up slightly on hover */}
-        <div className="flex gap-2 mt-4 transition-transform duration-300 group-hover:-translate-y-0.5">
-          <button
-            onClick={() => window.open(item.link, '_blank')}
-            className="bg-blue-600 hover:bg-blue-500 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-blue-500/30"
-          >
-            View Project
-          </button>
-          <button
-            onClick={() => window.open(item.repo, '_blank')}
-            className="bg-white/10 hover:bg-white/20 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium border border-white/10 hover:border-white/30"
-          >
-            Source
-          </button>
-        </div>
+      </div>
+      {/* Buttons */}
+      <div className="flex gap-2 mt-3">
+        <button
+          onClick={() => window.open(item.repo, '_blank')}
+          className="text-white rounded-full font-medium transition-all duration-200"
+          style={{ background: 'rgba(255,255,255,0.08)', fontSize: 11, padding: '6px 14px', border: '1px solid rgba(255,255,255,0.12)' }}
+        >
+          Source
+        </button>
       </div>
     </div>
   );
 }
+
+// ─── Experience Card ──────────────────────────────────────────────────────────
 
 function ExperienceCard({ item, index }: { item: Experience; index: number }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <div
-      className="rounded-xl overflow-hidden border border-gray-800 w-full group cursor-pointer transition-all duration-300 hover:border-blue-500/50"
-      style={{
-        background: '#111827',
-        boxShadow: `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`,
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)';
-        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 30px rgba(59,130,246,0.25), 0 20px 40px rgba(0,0,0,0.6)';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 ${8 + index * 4}px ${24 + index * 8}px rgba(0,0,0,0.5)`;
-      }}
+      className="flex flex-col"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Thumbnail */}
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full rounded-xl overflow-hidden cursor-pointer " style={{ aspectRatio: '16/9' }} 
+            onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}>
         <img
           src={item.src}
           alt={item.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500"
+          style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-1.5 right-1.5 bg-black/90 text-white text-xs font-mono font-bold px-1.5 py-0.5 rounded">
+
+        {/* Overlay */}
+        <div
+          className="absolute inset-0 transition-opacity duration-200"
+          style={{ background: 'rgba(0,0,0,0.38)', opacity: hovered ? 1 : 0 }}
+        />
+
+        {/* Duration badge */}
+        <div
+          className="absolute bottom-2 right-2 text-white rounded"
+          style={{ background: 'rgba(0,0,0,0.85)', fontSize: '11px', padding: '2px 6px', fontFamily: 'monospace', fontWeight: 700 }}
+        >
           {item.duration}
         </div>
-        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="text-xs text-blue-400 border border-blue-400/40 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-full">
+
+        {/* Tag badge on hover */}
+        <div
+          className="absolute top-2 left-2 transition-opacity duration-200"
+          style={{ opacity: hovered ? 1 : 0 }}
+        >
+          <span
+            className="rounded-full text-blue-400"
+            style={{ fontSize: 11, padding: '3px 10px', border: '1px solid rgba(96,165,250,0.4)', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+          >
             {item.tag}
           </span>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col justify-between p-4">
-        <div>
-          <h3 className="text-white font-semibold text-base leading-snug mb-1">{item.title}</h3>
-          <p className="text-gray-500 text-sm mt-1">{item.company}</p>
-          <span className="inline-block text-xs text-blue-400 border border-blue-400/30 bg-blue-400/10 px-2 py-0.5 rounded-full mt-2 group-hover:opacity-0 transition-opacity duration-200">
+      {/* Meta row */}
+      <div className="flex gap-3 mt-3">
+        <div
+          className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold"
+          style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}
+        >
+          MJ
+        </div>
+
+        <div className="flex flex-col min-w-0">
+          <p
+            className="text-white font-medium leading-snug"
+            style={{ fontSize: 13, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
+            {item.title}
+          </p>
+          <p className="text-gray-500 mt-0.5" style={{ fontSize: 11 }}>
+            {item.company}
+          </p>
+          <p className="text-gray-500" style={{ fontSize: 11 }}>
+            {item.views} &nbsp;·&nbsp; {item.ago}
+          </p>
+
+          <span
+            className="mt-1 self-start rounded-full"
+            style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}
+          >
             {item.tag}
           </span>
         </div>
-        <div className="mt-4 transition-transform duration-300 group-hover:-translate-y-0.5">
-          <button
-            onClick={() => window.open(item.link, '_blank')}
-            className="bg-blue-600 hover:bg-blue-500 transition-all duration-200 text-white text-xs px-4 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-blue-500/30"
-          >
-            Learn More
-          </button>
-        </div>
+      </div>
+
+      {/* Button */}
+      <div className="mt-3">
+        <button
+          onClick={() => window.open(item.link, '_blank')}
+          className="text-white rounded-full font-medium transition-all duration-200 hover:bg-blue-500"
+          style={{ background: '#2563eb', fontSize: 11, padding: '6px 14px' }}
+        >
+          Learn More
+        </button>
       </div>
     </div>
   );
 }
 
-function ProjectsTab({ projects }: { projects: Project[] }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+// ─── Watch Later Panel ────────────────────────────────────────────────────────
 
-  const updateArrows = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  };
-
-  useEffect(() => {
-    updateArrows();
-    const el = scrollRef.current;
-    el?.addEventListener('scroll', updateArrows);
-    window.addEventListener('resize', updateArrows);
-    return () => {
-      el?.removeEventListener('scroll', updateArrows);
-      window.removeEventListener('resize', updateArrows);
-    };
-  }, []);
-
-  const scroll = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
-  };
+function WatchLaterPanel({ ids, projects }: { ids: Set<number>; projects: Project[] }) {
+  const saved = projects.filter((p) => ids.has(p.id));
+  if (!saved.length) return null;
 
   return (
-    <div className="w-11/12 mx-auto mt-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-white">Projects ({projects.length})</h2>
-        <span className="text-xs text-gray-500 italic">↓ scroll to explore</span>
-      </div>
-
-      <div className="relative">
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
-
-        <div
-          ref={scrollRef}
-          className="grid grid-cols-3 gap-4 overflow-x-auto pb-2"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {projects.map((item, index) => (
-            <ProjectCard key={item.id} item={item} index={index} />
-          ))}
-        </div>
-
-        {canScrollRight && (
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        )}
-      </div>
-
-      <div className="flex justify-center mt-5 mb-8">
-        <a href="https://github.com/muizjafri?tab=repositories" target="_blank" rel="noopener noreferrer">
-          <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
-            View More Projects
-            <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </button>
-        </a>
+    <div
+      className="w-11/12 mx-auto mb-6 rounded-xl p-4"
+      style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}
+    >
+      <p className="text-white font-semibold text-sm mb-3">
+        Watch Later &nbsp;
+        <span className="text-gray-500 font-normal">({saved.length})</span>
+      </p>
+      <div className="flex flex-col gap-2">
+        {saved.map((p) => (
+          <div key={p.id} className="flex items-center gap-3">
+            <div className="rounded-lg overflow-hidden flex-shrink-0" style={{ width: 80, height: 46 }}>
+              <img src={p.src} alt={p.title} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-medium truncate" style={{ fontSize: 12 }}>{p.title}</p>
+              <p className="text-gray-500" style={{ fontSize: 11 }}>{p.ago}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const projects: Project[] = [
   {
     id: 1,
     src: linkedin,
-    title: "AI Powered Typing Test Application",
-    duration: "11:42",
-    author: "Muiz Jafri",
-    tag: "Machine Learning",
-    color: "#1a2744",
-    link: "https://your-live-demo-url.com",
-    repo: "https://github.com/muizjafri/your-repo",
+    title: 'AI Powered Typing Test Application',
+    duration: '11:42',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev', ' Machine Learning'],
+    color: '#1a2744',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/TypingTest',
+    views: '1.2k views',
+    ago: '2025',
   },
   {
     id: 2,
     src: github,
-    title: "Real-Time Object Recognition & AI Assistant",
-    duration: "12:44",
-    author: "Muiz Jafri",
-    tag: "Computer Vision",
-    color: "#0f2233",
-    link: "https://your-live-demo-url.com",
-    repo: "https://github.com/muizjafri/your-repo",
+    title: 'Real-Time Object Recognition & AI Assistant',
+    duration: '12:44',
+    author: 'Muiz Jafri',
+    tag: ['Computer Vision'],
+    color: '#0f2233',
+    link: 'https://www.youtube.com/',
+    repo: 'https://github.com/muizjafri/Object-Detection-and-Advise',
+    views: '834 views',
+    ago: '2025',
   },
+  {
+    id: 3,
+    src: github,
+    title: 'Simon Game',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev'],
+    color: '#122033',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/Integration-Camp-Counsellor',
+    views: '4 months',
+    ago: '2026',
+
+  }
 ];
 
 const experiences: Experience[] = [
   {
     id: 1,
     src: linkedin,
-    title: "Software Engineer",
-    company: "Air Hawk Solutions",
-    duration: "11:42",
-    tag: "Engineering",
-    color: "#1a2744",
-    link: "https://your-company-url.com",
+    title: 'Software Engineer',
+    company: 'Air Hawk Solutions',
+    duration: '11:42',
+    tag: 'Engineering',
+    color: '#1a2744',
+    link: 'https://your-company-url.com',
+    views: '6 months',
+    ago: 'Summer 2024',
   },
   {
     id: 2,
     src: github,
-    title: "Competitions Organizer",
-    company: "MIST Toronto",
-    duration: "12:44",
-    tag: "Leadership",
-    color: "#0f2233",
-    link: "https://your-company-url.com",
+    title: 'Competitions Organizer',
+    company: 'MIST Toronto',
+    duration: '12:44',
+    tag: 'Leadership',
+    color: '#0f2233',
+    link: 'https://your-company-url.com',
+    views: '1 year',
+    ago: '2023 – 2024',
   },
   {
     id: 3,
     src: github,
-    title: "Integration Camp Counsellor",
-    company: "City of Pickering",
-    duration: "12:44",
-    tag: "Community",
-    color: "#122033",
-    link: "https://your-company-url.com",
+    title: 'Integration Camp Counsellor',
+    company: 'City of Pickering',
+    duration: '12:44',
+    tag: 'Community',
+    color: '#122033',
+    link: 'https://your-company-url.com',
+    views: '4 months',
+    ago: 'Summer 2023',
   },
 ];
+
+const PROJECT_CHIPS = [
+  { label: 'All', value: 'all' },
+  { label: 'Machine Learning', value: ' Machine Learning' },
+  { label: 'Computer Vision', value: 'Computer Vision' },
+  { label: 'Web Dev', value: 'Web Dev' },
+];
+
+const EXPERIENCE_CHIPS = [
+  { label: 'All', value: 'all' },
+  { label: 'Engineering', value: 'Engineering' },
+  { label: 'Leadership', value: 'Leadership' },
+  { label: 'Community', value: 'Community' },
+];
+
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 function App() {
   const [activeTab, setActiveTab] = useState('aboutme');
   const [introComplete, setIntroComplete] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [watchLater, setWatchLater] = useState<Set<number>>(new Set());
+  const [projectFilter, setProjectFilter] = useState('all');
+  const [expFilter, setExpFilter] = useState('all');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const toggleWL = (id: number) => {
+    setWatchLater((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const filteredProjects =
+    projectFilter === 'all' ? projects : projects.filter((p) => p.tag.includes(projectFilter));
+
+  const filteredExperiences =
+    expFilter === 'all' ? experiences : experiences.filter((e) => e.tag.includes(expFilter));
 
   const handleSend = async () => {
     if (!formData.name || !formData.email || !formData.message) return;
@@ -332,54 +532,69 @@ function App() {
     <div className="bg-black min-h-screen text-white overflow-hidden">
       {!introComplete && <MuizIntro onComplete={() => setIntroComplete(true)} />}
 
-      <div className="flex flex-col items-center justify-center gap-8">
+      <div className="flex flex-col items-center justify-center gap-0">
 
-        
-       {/* Search Bar 
-        <div className="w-full my-4 max-w-2xl px-4">
-          <div className="flex items-center border-2 border-gray-700 rounded-full shadow-lg overflow-hidden focus-within:border-blue-500 bg-gray-900">
-            <input
-              type="text"
-              placeholder="Search"
-              className="flex-1 px-6 py-4 text-lg focus:outline-none bg-transparent text-white placeholder-gray-500"
-            />
-            <div className="h-14 w-px bg-gray-700"></div>
-            <div className="px-6">
-              <svg className="w-9 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
-        </div> */}
-        
-        {/* Toronto Banner */}
-        <div className="w-full">
-          <img src={Toronto} alt="Toronto" className="w-11/12 h-64 object-cover object-[50%_45%] mx-auto rounded-xl" />
+        {/* ── Channel Banner ── */}
+        <div className="w-11/12 mx-auto mt-4">
+          <ChannelBanner />
         </div>
 
-        {/* Profile Section */}
-        <div className="w-11/12 mx-auto flex items-center gap-4">
-          <img src={face} alt="Profile" className="w-32 h-32 rounded-full object-cover border-4 border-blue-500" />
-          <div>
+        {/* ── Profile Section ── */}
+        <div className="w-11/12 mx-auto flex items-center gap-4 mt-4">
+          <img
+            src={face}
+            alt="Profile"
+            className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
+          />
+          <div className="flex-1">
             <h1 className="text-3xl font-bold text-white">Muiz Jafri</h1>
             <p className="text-sm text-gray-400 mt-1">
               Third-year Computer Engineering student at Toronto Metropolitan University.
             </p>
-            <div className="flex gap-4 mt-3">
-              <a href="https://github.com/muizjafri" target="_blank"
-                className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition duration-300 text-sm border border-gray-700">
+
+            {/* Channel stats */}
+            <div className="flex gap-4 mt-2 text-xs text-gray-500">
+              <span>{projects.length} projects</span>
+              <span>·</span>
+              <span>{experiences.length} experiences</span>
+              <span>·</span>
+              <span>3rd year · CompEng</span>
+              <span>·</span>
+              <span className="text-red-400">● Open to work</span>
+            </div>
+
+            <div className="flex gap-3 mt-3 flex-wrap">
+              <a
+                href="https://github.com/muizjafri"
+                target="_blank"
+                className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition duration-300 text-sm border border-gray-700"
+              >
                 GitHub
               </a>
-              <a href="https://www.linkedin.com/in/muiz-jafri-92655a20b/" target="_blank"
-                className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-500 transition duration-300 text-sm">
+              <a
+                href="https://www.linkedin.com/in/muiz-jafri-92655a20b/"
+                target="_blank"
+                className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-500 transition duration-300 text-sm"
+              >
                 LinkedIn
               </a>
+              <button
+                onClick={() => setSubscribed((s) => !s)}
+                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                style={
+                  subscribed
+                    ? { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.15)' }
+                    : { background: '#fff', color: '#000', border: '1px solid #fff' }
+                }
+              >
+                {subscribed ? 'Subscribed ✓' : 'Subscribe'}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* ── Tabs ── */}
       <div className="w-11/12 mx-auto mt-8">
         <div className="flex gap-8 border-b border-gray-800">
           {['aboutme', 'projects', 'experience'].map((tab) => (
@@ -391,27 +606,38 @@ function App() {
               }`}
             >
               {tab === 'aboutme' ? 'About Me' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />}
+              {activeTab === tab && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* About Me Tab */}
+      {/* ── About Me Tab ── */}
       {activeTab === 'aboutme' && (
         <div className="w-11/12 mx-auto mt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="md:col-span-2 bg-gray-900 border border-gray-800 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
               <span className="text-xs text-blue-400 uppercase tracking-widest mb-3">// whoami</span>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Third-year <span className="text-white font-semibold">Computer Engineering</span> student
-                at Toronto Metropolitan University. Passionate about building web apps and exploring new technologies.
+                Third-year{' '}
+                <span className="text-white font-semibold">Computer Engineering</span> student at
+                Toronto Metropolitan University. Passionate about building web apps and exploring
+                new technologies.
               </p>
               <p className="text-xs text-gray-600 mt-4">Toronto, ON 🍁</p>
             </div>
             <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
-              <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
-              <p className="text-2xl font-bold leading-tight mt-2">Cloud<br />Computing<br />& DevOps</p>
+              <span className="text-xs text-blue-200 uppercase tracking-widest">
+                Currently learning
+              </span>
+              <p className="text-2xl font-bold leading-tight mt-2">
+                Cloud
+                <br />
+                Computing
+                <br />& DevOps
+              </p>
               <span className="text-blue-200 text-xs">AWS · Docker · K8s</span>
             </div>
           </div>
@@ -419,10 +645,17 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             {[
               { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food!' },
-              { emoji: '🎮', title: 'Gamer', desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)' },
+              {
+                emoji: '🎮',
+                title: 'Gamer',
+                desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)',
+              },
               { emoji: '📺', title: 'YouTube Addict', desc: 'Favourite channel: fern.' },
             ].map((item) => (
-              <div key={item.title} className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col gap-2">
+              <div
+                key={item.title}
+                className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col gap-2"
+              >
                 <span className="text-2xl">{item.emoji}</span>
                 <p className="font-semibold text-sm text-white">{item.title}</p>
                 <p className="text-xs text-gray-400">{item.desc}</p>
@@ -435,9 +668,9 @@ function App() {
               <span className="text-xs text-blue-400 uppercase tracking-widest">Tech focus</span>
               <div className="mt-4 flex flex-col gap-3">
                 {[
-                  { label: "Full Stack / Web Dev", width: "w-11/12" },
-                  { label: "Machine Learning / AI", width: "w-8/12" },
-                  { label: "Cloud / DevOps", width: "w-4/12" },
+                  { label: 'Full Stack / Web Dev', width: 'w-11/12' },
+                  { label: 'Machine Learning / AI', width: 'w-8/12' },
+                  { label: 'Cloud / DevOps', width: 'w-4/12' },
                 ].map((item) => (
                   <div key={item.label}>
                     <p className="text-xs text-gray-400 mb-1">{item.label}</p>
@@ -450,7 +683,9 @@ function App() {
             </div>
 
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col gap-3">
-              <span className="text-xs text-blue-400 uppercase tracking-widest">// contact me</span>
+              <span className="text-xs text-blue-400 uppercase tracking-widest">
+                // contact me
+              </span>
               <input
                 type="text"
                 placeholder="Your name"
@@ -479,32 +714,140 @@ function App() {
               >
                 {status === 'sending' ? 'Sending...' : 'Send message'}
               </button>
-              {status === 'sent' && <p className="text-green-400 text-xs text-center">Message sent!</p>}
-              {status === 'error' && <p className="text-red-400 text-xs text-center">Something went wrong. Try again.</p>}
+              {status === 'sent' && (
+                <p className="text-green-400 text-xs text-center">Message sent!</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 text-xs text-center">Something went wrong. Try again.</p>
+              )}
             </div>
           </div>
         </div>
       )}
 
-      {/* Projects Tab */}
-      {activeTab === 'projects' && <ProjectsTab projects={projects} />}
+      {/* ── Projects Tab ── */}
+      {activeTab === 'projects' && (
+        <div className="w-11/12 mx-auto mt-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-white">
+              Projects{' '}
+              <span className="text-gray-500 font-normal text-base">({filteredProjects.length})</span>
+            </h2>
+          </div>
 
-      {/* Experience Tab */}
+          <FilterChips
+            chips={PROJECT_CHIPS}
+            active={projectFilter}
+            onChange={setProjectFilter}
+          />
+
+          {/* Watch Later panel */}
+          {watchLater.size > 0 && (
+            <div
+              className="mb-6 rounded-xl p-4"
+              style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}
+            >
+              <p className="text-white font-semibold text-sm mb-3">
+                Watch Later{' '}
+                <span className="text-gray-500 font-normal">({watchLater.size})</span>
+              </p>
+              <div className="flex flex-col gap-2">
+                {projects.filter((p) => watchLater.has(p.id)).map((p) => (
+                  <div key={p.id} className="flex items-center gap-3">
+                    <div className="rounded-lg overflow-hidden flex-shrink-0" style={{ width: 80, height: 46 }}>
+                      <img src={p.src} alt={p.title} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-medium truncate" style={{ fontSize: 12 }}>{p.title}</p>
+                      <p className="text-gray-500" style={{ fontSize: 11 }}>{p.ago}</p>
+                    </div>
+                    <button
+                      onClick={() => toggleWL(p.id)}
+                      className="text-gray-500 hover:text-white transition text-lg leading-none"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredProjects.map((item, index) => (
+              <ProjectCard
+                key={item.id}
+                item={item}
+                index={index}
+                isWatchLater={watchLater.has(item.id)}
+                onToggleWL={toggleWL}
+              />
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-8 mb-8">
+            <a
+              href="https://github.com/muizjafri?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
+                View More Projects
+                <svg
+                  className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* ── Experience Tab ── */}
       {activeTab === 'experience' && (
         <div className="w-11/12 mx-auto mt-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">Experience ({experiences.length})</h2>
-            <span className="text-xs text-gray-500 italic">↓ scroll to explore</span>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-white">
+              Experience{' '}
+              <span className="text-gray-500 font-normal text-base">({filteredExperiences.length})</span>
+            </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {experiences.map((item, index) => (
+
+          <FilterChips
+            chips={EXPERIENCE_CHIPS}
+            active={expFilter}
+            onChange={setExpFilter}
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredExperiences.map((item, index) => (
               <ExperienceCard key={item.id} item={item} index={index} />
             ))}
           </div>
-          <div className="flex justify-center mt-5 mb-8">
+
+          <div className="flex justify-center mt-8 mb-8">
             <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
-              <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              <svg
+                className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
               </svg>
               Download my Resume!
             </button>
