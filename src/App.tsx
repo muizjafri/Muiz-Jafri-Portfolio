@@ -4,6 +4,7 @@ import face from './assets/myface.png'
 import { useState, useEffect, useRef } from 'react';
 import MuizIntro from './MuizIntro';
 import emailjs from '@emailjs/browser';
+import SimonGame from './assets/SimonGame.png';
 
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
@@ -38,7 +39,6 @@ interface Experience {
 
 // ─── Scroll Reveal ────────────────────────────────────────────────────────────
 
-// ─── Scroll Reveal ────────────────────────────────────────────────────────────
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -47,9 +47,9 @@ function useScrollReveal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setVisible(entry.isIntersecting); // ✅ toggles both ways now
+        setVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: (600 / window.innerHeight) } // Trigger when 600px of the element is visible
     );
 
     if (ref.current) observer.observe(ref.current);
@@ -109,7 +109,7 @@ function ChannelBanner() {
           Muiz Jafri
         </h1>
         <p className="text-sm" style={{ color: 'rgba(148,163,184,0.9)', letterSpacing: '0.08em' }}>
-          COMPUTER ENGINEERING &nbsp;·&nbsp; FULL STACK &nbsp;·&nbsp; TORONTO
+           &nbsp;·&nbsp; CAN Citizen  &nbsp;·&nbsp; TORONTO
         </p>
       </div>
 
@@ -365,17 +365,6 @@ function ExperienceCard({ item, index }: { item: Experience; index: number }) {
           </span>
         </div>
       </div>
-
-      {/* Button */}
-      <div className="mt-3">
-        <button
-          onClick={() => window.open(item.link, '_blank')}
-          className="text-white rounded-full font-medium transition-all duration-200 hover:bg-blue-500"
-          style={{ background: '#2563eb', fontSize: 11, padding: '6px 14px' }}
-        >
-          Learn More
-        </button>
-      </div>
     </div>
   );
 }
@@ -443,14 +432,14 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    src: github,
+    src: SimonGame,
     title: 'Simon Game',
     duration: '6:47',
     author: 'Muiz Jafri',
     tag: ['Web Dev'],
     color: '#122033',
     link: 'https://www.youtube.com/@muizjafri2872',
-    repo: 'https://github.com/muizjafri/Integration-Camp-Counsellor',
+    repo: 'https://github.com/muizjafri/SimonGame',
     views: '4 months',
     ago: '2026',
 
@@ -566,6 +555,12 @@ function App() {
   const [projectFilter, setProjectFilter] = useState('all');
   const [expFilter, setExpFilter] = useState('all');
   const [subscribed, setSubscribed] = useState(false);
+  useEffect(() => {
+    if("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   const toggleWL = (id: number) => {
     setWatchLater((prev) => {
@@ -623,7 +618,7 @@ function App() {
             </p>
 
             {/* Channel stats */}
-            <div className="flex gap-4 mt-2 text-xs text-gray-500">
+            <div className="flex gap-4 mt-2 text-sm text-gray-500">
               <span> AI/ML Engineer</span>
               <span>·</span>
               <span> Full-Stack Developer</span>
@@ -689,7 +684,7 @@ function App() {
   <div className="w-11/12 mx-auto mt-6">
 
     {/* Row 1 */}
-    <Reveal delay={0}>
+    <Reveal delay={200}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="md:col-span-2 bg-gray-900 border border-gray-800 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
           <span className="text-xs text-blue-400 uppercase tracking-widest mb-3">// whoami</span>
@@ -714,9 +709,9 @@ function App() {
     {/* Row 2 — staggered cards */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
       {[
-        { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food!' },
+        { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food! (Favourite is Shawarma)' },
         { emoji: '🎮', title: 'Gamer', desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)' },
-        { emoji: '📺', title: 'YouTube Addict', desc: 'Favourite channel: fern.' },
+        { emoji: '📺', title: 'YouTube', desc: 'Especially Mystery and True Crime! ' },
       ].map((item, i) => (
         <Reveal key={item.title} delay={i * 100}>
           <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col gap-2">
