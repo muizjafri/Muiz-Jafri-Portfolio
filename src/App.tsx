@@ -36,6 +36,31 @@ interface Experience {
   ago: string;
 }
 
+// ─── Scroll Reveal ────────────────────────────────────────────────────────────
+
+// ─── Scroll Reveal ────────────────────────────────────────────────────────────
+
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting); // ✅ toggles both ways now
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, visible };
+}
+
+
 // ─── Channel Banner ──────────────────────────────────────────────────────────
 
 function ChannelBanner() {
@@ -485,6 +510,51 @@ const EXPERIENCE_CHIPS = [
   { label: 'Community', value: 'Community' },
 ];
 
+function ProgressBar({ label, value, delay }: { label: string; value: number; delay: number }) {
+  const { ref, visible } = useScrollReveal();
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (visible) {
+      const timeout = setTimeout(() => setWidth(value), delay);
+      return () => clearTimeout(timeout);
+    }
+  }, [visible, value, delay]);
+
+  return (
+    <div ref={ref}>
+      <div className="text-xs text-gray-400 mb-1">{label}</div>
+      <div className="w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
+        <div
+          className="h-1.5 rounded-full relative overflow-hidden"
+          style={{
+            width: `${width}%`,
+            background: 'linear-gradient(90deg, #3b82f6, #60a5fa)',
+            transition: 'width 1s ease',
+          }}
+        >
+          <div className="shine" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, visible } = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(24px)',
+        transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 function App() {
@@ -554,11 +624,11 @@ function App() {
 
             {/* Channel stats */}
             <div className="flex gap-4 mt-2 text-xs text-gray-500">
-              <span>{projects.length} projects</span>
+              <span> AI/ML Engineer</span>
               <span>·</span>
-              <span>{experiences.length} experiences</span>
+              <span> Full-Stack Developer</span>
               <span>·</span>
-              <span>3rd year · CompEng</span>
+              <span>3rd year · Computer Engineering</span>
               <span>·</span>
               <span className="text-red-400">● Open to work</span>
             </div>
@@ -615,115 +685,108 @@ function App() {
       </div>
 
       {/* ── About Me Tab ── */}
-      {activeTab === 'aboutme' && (
-        <div className="w-11/12 mx-auto mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div className="md:col-span-2 bg-gray-900 border border-gray-800 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
-              <span className="text-xs text-blue-400 uppercase tracking-widest mb-3">// whoami</span>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                Third-year{' '}
-                <span className="text-white font-semibold">Computer Engineering</span> student at
-                Toronto Metropolitan University. Passionate about building web apps and exploring
-                new technologies.
-              </p>
-              <p className="text-xs text-gray-600 mt-4">Toronto, ON 🍁</p>
-            </div>
-            <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
-              <span className="text-xs text-blue-200 uppercase tracking-widest">
-                Currently learning
-              </span>
-              <p className="text-2xl font-bold leading-tight mt-2">
-                Cloud
-                <br />
-                Computing
-                <br />& DevOps
-              </p>
-              <span className="text-blue-200 text-xs">AWS · Docker · K8s</span>
-            </div>
-          </div>
+{activeTab === 'aboutme' && (
+  <div className="w-11/12 mx-auto mt-6">
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            {[
-              { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food!' },
-              {
-                emoji: '🎮',
-                title: 'Gamer',
-                desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)',
-              },
-              { emoji: '📺', title: 'YouTube Addict', desc: 'Favourite channel: fern.' },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col gap-2"
-              >
-                <span className="text-2xl">{item.emoji}</span>
-                <p className="font-semibold text-sm text-white">{item.title}</p>
-                <p className="text-xs text-gray-400">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-900 border border-gray-800 text-white rounded-2xl p-6">
-              <span className="text-xs text-blue-400 uppercase tracking-widest">Tech focus</span>
-              <div className="mt-4 flex flex-col gap-3">
-                {[
-                  { label: 'Full Stack / Web Dev', width: 'w-11/12' },
-                  { label: 'Machine Learning / AI', width: 'w-8/12' },
-                  { label: 'Cloud / DevOps', width: 'w-4/12' },
-                ].map((item) => (
-                  <div key={item.label}>
-                    <p className="text-xs text-gray-400 mb-1">{item.label}</p>
-                    <div className="w-full bg-gray-800 rounded-full h-1.5">
-                      <div className={`bg-blue-500 h-1.5 rounded-full ${item.width}`} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col gap-3">
-              <span className="text-xs text-blue-400 uppercase tracking-widest">
-                // contact me
-              </span>
-              <input
-                type="text"
-                placeholder="Your name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-              />
-              <input
-                type="email"
-                placeholder="Your email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-              />
-              <textarea
-                placeholder="Message..."
-                rows={3}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition resize-none"
-              />
-              <button
-                onClick={handleSend}
-                disabled={status === 'sending'}
-                className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-xl transition"
-              >
-                {status === 'sending' ? 'Sending...' : 'Send message'}
-              </button>
-              {status === 'sent' && (
-                <p className="text-green-400 text-xs text-center">Message sent!</p>
-              )}
-              {status === 'error' && (
-                <p className="text-red-400 text-xs text-center">Something went wrong. Try again.</p>
-              )}
-            </div>
-          </div>
+    {/* Row 1 */}
+    <Reveal delay={0}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="md:col-span-2 bg-gray-900 border border-gray-800 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
+          <span className="text-xs text-blue-400 uppercase tracking-widest mb-3">// whoami</span>
+          <p className="text-gray-300 text-sm leading-relaxed">
+            Third-year{' '}
+            <span className="text-white font-semibold">Computer Engineering</span> student at
+            Toronto Metropolitan University. Passionate about building web apps and exploring
+            new technologies.
+          </p>
+          <p className="text-xs text-gray-600 mt-4">Toronto, ON 🍁</p>
         </div>
-      )}
+        <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
+          <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
+          <p className="text-2xl font-bold leading-tight mt-2">
+            Cloud<br />Computing<br />& DevOps
+          </p>
+          <span className="text-blue-200 text-xs">AWS · Docker · K8s</span>
+        </div>
+      </div>
+    </Reveal>
+
+    {/* Row 2 — staggered cards */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      {[
+        { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food!' },
+        { emoji: '🎮', title: 'Gamer', desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)' },
+        { emoji: '📺', title: 'YouTube Addict', desc: 'Favourite channel: fern.' },
+      ].map((item, i) => (
+        <Reveal key={item.title} delay={i * 100}>
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col gap-2">
+            <span className="text-2xl">{item.emoji}</span>
+            <p className="font-semibold text-sm text-white">{item.title}</p>
+            <p className="text-xs text-gray-400">{item.desc}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+
+    {/* Row 3 */}
+    <Reveal delay={0}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gray-900 border border-gray-800 text-white rounded-2xl p-6">
+          <span className="text-xs text-blue-400 uppercase tracking-widest">Tech focus</span>
+<div className="mt-4 flex flex-col gap-4">
+{[
+  { label: 'Full Stack / Web Dev', width: 91.67 },
+  { label: 'Machine Learning / AI', width: 66.67 },
+  { label: 'Cloud / DevOps', width: 33.33 },
+].map((item, i) => (
+  <ProgressBar
+    key={item.label}
+    label={item.label}
+    value={item.width}
+    delay={i * 200} // ✅ stagger
+  />
+))}
+</div>
+</div>
+
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col gap-3">
+          <span className="text-xs text-blue-400 uppercase tracking-widest">// contact me</span>
+          <input
+            type="text"
+            placeholder="Your name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+          />
+          <input
+            type="email"
+            placeholder="Your email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+          />
+          <textarea
+            placeholder="Message..."
+            rows={3}
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition resize-none"
+          />
+          <button
+            onClick={handleSend}
+            disabled={status === 'sending'}
+            className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-xl transition"
+          >
+            {status === 'sending' ? 'Sending...' : 'Send message'}
+          </button>
+          {status === 'sent' && <p className="text-green-400 text-xs text-center">Message sent!</p>}
+          {status === 'error' && <p className="text-red-400 text-xs text-center">Something went wrong. Try again.</p>}
+        </div>
+      </div>
+    </Reveal>
+
+  </div>
+)}
 
       {/* ── Projects Tab ── */}
       {activeTab === 'projects' && (
