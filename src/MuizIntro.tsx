@@ -5,6 +5,7 @@ const letters = [
   { char: 'U' },
   { char: 'I' },
   { char: 'Z' },
+
 ];
 
 const LETTER_DELAY = 350;

@@ -1,7 +1,8 @@
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // <- this line is important
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},

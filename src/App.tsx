@@ -17,6 +17,7 @@ interface Project {
   duration: string;
   author: string;
   tag: string [];
+  language: string [];
   color: string;
   link: string;
   repo: string;
@@ -106,11 +107,8 @@ function ChannelBanner() {
           className="text-white font-bold tracking-tight"
           style={{ fontSize: '2.2rem', letterSpacing: '-0.02em', textShadow: '0 2px 24px rgba(59,130,246,0.35)' }}
         >
-          Muiz Jafri
+          CAN Citizen · Toronto
         </h1>
-        <p className="text-sm" style={{ color: 'rgba(148,163,184,0.9)', letterSpacing: '0.08em' }}>
-           &nbsp;·&nbsp; CAN Citizen  &nbsp;·&nbsp; TORONTO
-        </p>
       </div>
 
       {/* Bottom fade */}
@@ -268,6 +266,18 @@ function ProjectCard({
               </span>
             ))}
           </div>
+          <div className="flex flex-wrap gap-1 mt-1">
+            {item.language.map((t) => (
+              <span
+                key={t}
+                className="self-start rounded-full"
+                style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#6ee7b7', border: '1px solid rgba(37,99,235,0.3)' }}
+              >
+                {t}
+              </span>
+            ))}
+
+          </div>
         </div>
       </div>
       {/* Buttons */}
@@ -284,7 +294,7 @@ function ProjectCard({
   );
 }
 
-// ─── Experience Card ──────────────────────────────────────────────────────────
+// ─── Experience Card ─
 
 function ExperienceCard({ item, index }: { item: Experience; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -410,7 +420,8 @@ const projects: Project[] = [
     title: 'AI Powered Typing Test Application',
     duration: '11:42',
     author: 'Muiz Jafri',
-    tag: ['Web Dev', ' Machine Learning'],
+    tag: ['Web Dev', ' Machine Learning' ],
+    language: ['Python', 'JavaScript'],
     color: '#1a2744',
     link: 'https://www.youtube.com/@muizjafri2872',
     repo: 'https://github.com/muizjafri/TypingTest',
@@ -424,6 +435,7 @@ const projects: Project[] = [
     duration: '12:44',
     author: 'Muiz Jafri',
     tag: ['Computer Vision'],
+    language: ['Python', 'TensorFlow', 'OpenCV'],
     color: '#0f2233',
     link: 'https://www.youtube.com/',
     repo: 'https://github.com/muizjafri/Object-Detection-and-Advise',
@@ -437,13 +449,45 @@ const projects: Project[] = [
     duration: '6:47',
     author: 'Muiz Jafri',
     tag: ['Web Dev'],
+    language: ['HTML', 'CSS', 'JavaScript'],
     color: '#122033',
     link: 'https://www.youtube.com/@muizjafri2872',
     repo: 'https://github.com/muizjafri/SimonGame',
     views: '4 months',
     ago: '2026',
 
-  }
+  },
+  {
+    id: 4,
+    src: linkedin,
+    title: 'Linkedin-email-finder',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev'],
+    language : ['JavaScript'],
+    color: '#122033',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '1 month',
+    ago: '2026',
+
+  },  {
+    id: 5,
+    src: linkedin,
+    title: 'Gold-Price-Prediction ML model',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: [' Machine Learning'],
+    language : ['Python', 'Pandas', 'Numpy', 'Scikit-learn', 'Matplotlib'],
+    color: '#122033',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '1 month',
+    ago: '2026',
+
+  },
+
+
 ];
 
 const experiences: Experience[] = [
@@ -483,6 +527,7 @@ const experiences: Experience[] = [
     views: '4 months',
     ago: 'Summer 2023',
   },
+  
 ];
 
 const PROJECT_CHIPS = [
@@ -546,6 +591,150 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 // ─── App ──────────────────────────────────────────────────────────────────────
 
+function ProjectsScroller({ filteredProjects, watchLater, toggleWL }: {
+  filteredProjects: Project[];
+  watchLater: Set<number>;
+  toggleWL: (id: number) => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateArrows = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    const el = scrollRef.current;
+    el?.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    return () => {
+      el?.removeEventListener('scroll', updateArrows);
+      window.removeEventListener('resize', updateArrows);
+    };
+  }, [filteredProjects]);
+
+  const scroll = (dir: 'left' | 'right') => {
+    scrollRef.current?.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="relative">
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white text-black rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+        >
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      )}
+
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto pb-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {filteredProjects.map((item, index) => (
+          <div key={item.id} style={{ minWidth: '300px', maxWidth: '300px' }}>
+            <ProjectCard
+              item={item}
+              index={index}
+              isWatchLater={watchLater.has(item.id)}
+              onToggleWL={toggleWL}
+            />
+          </div>
+        ))}
+      </div>
+
+      {canScrollRight && (
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white text-black rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+        >
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
+function ExperienceScroller({filteredExperiences}: {
+  filteredExperiences: Experience[];
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateArrows = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    const el = scrollRef.current;
+    el?.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    return () => {
+      el?.removeEventListener('scroll', updateArrows);
+      window.removeEventListener('resize', updateArrows);
+    };
+  }, [filteredExperiences]);
+
+  const scroll = (dir: 'left' | 'right') => {
+    scrollRef.current?.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="relative">
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white text-black rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+        >
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      )}
+
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto pb-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {filteredExperiences.map((item, index) => (
+          <div key={item.id} style={{ minWidth: '300px', maxWidth: '300px' }}>
+            <ExperienceCard
+              item={item}
+              index={index}
+            />
+          </div>
+        ))}
+      </div>
+
+      {canScrollRight && (
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white text-black rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+        >
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
 function App() {
   const [activeTab, setActiveTab] = useState('aboutme');
   const [introComplete, setIntroComplete] = useState(false);
@@ -831,17 +1020,11 @@ function App() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredProjects.map((item, index) => (
-              <ProjectCard
-                key={item.id}
-                item={item}
-                index={index}
-                isWatchLater={watchLater.has(item.id)}
-                onToggleWL={toggleWL}
-              />
-            ))}
-          </div>
+          <ProjectsScroller
+            filteredProjects={filteredProjects}
+            watchLater={watchLater}
+            toggleWL={toggleWL}
+          />
 
           <div className="flex justify-center mt-8 mb-8">
             <a
@@ -886,11 +1069,7 @@ function App() {
             onChange={setExpFilter}
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredExperiences.map((item, index) => (
-              <ExperienceCard key={item.id} item={item} index={index} />
-            ))}
-          </div>
+          <ExperienceScroller filteredExperiences={filteredExperiences} />
 
           <div className="flex justify-center mt-8 mb-8">
             <button className="group flex items-center gap-3 bg-gray-900 border border-gray-700 hover:border-blue-500 text-white px-8 py-4 rounded-full text-base font-medium transition-all duration-300 hover:bg-gray-800">
