@@ -1,15 +1,24 @@
-import github from './assets/githublogo.png'
-import linkedin from './assets/linkedinlogo.png'
-import face from './assets/myface.png'
+import github from './assets/githublogo.png';
+import linkedin from './assets/linkedinlogo.png';
+import face from './assets/myface.png';
 import { useState, useEffect, useRef } from 'react';
 import MuizIntro from './MuizIntro';
 import emailjs from '@emailjs/browser';
 import SimonGame from './assets/SimonGame.png';
 import objectDetection from './assets/ThumbnailObjectDetection.png';
 import TypingTest from './assets/TypingTest.png';
+import EmailFinderio from './assets/EmailFinderio.png';
+import MIST from './assets/MIST_Toronto.png';
+import Goku from './assets/Gokuthumbsup.png';
+import Pickering from './assets/Pickering.png';
+import Placeholder from './assets/placeholderimage.png';
+import resume from './assets/AIMuizJ.pdf';
+
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
 const EMAILJS_PUBLIC_KEY = 'dbAiIXD2czrnQxLgZ';
+
+// ─── Interfaces ───────────────────────────────────────────────────────────────
 
 interface Project {
   id: number;
@@ -38,7 +47,165 @@ interface Experience {
   link: string;
   views: string;
   ago: string;
+  description: string;
 }
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const projects: Project[] = [
+  {
+    id: 1,
+    src: TypingTest,
+    title: 'TypeForge',
+    duration: '11:42',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev', ' Machine Learning'],
+    language: ['Python', 'JavaScript'],
+    color: '#1a2744',
+    link: 'https://youtu.be/lVE4nV1knP8',
+    repo: 'https://github.com/muizjafri/TypingTest',
+    views: '1.2k views',
+    ago: '2025',
+    description:
+      'TypeForge is an AI powered typing test that can generate custom passages in real time based on any theme described. This is built with React and TypeScript frontend served through a FastAPI backend and uses Groq API to run Llama 3.3 to instantly generate themed words. Check the video below to see how it works!',
+  },
+  {
+    id: 2,
+    src: objectDetection,
+    title: 'VisionAI',
+    duration: '12:44',
+    author: 'Muiz Jafri',
+    tag: ['Computer Vision'],
+    language: ['Python', 'Flask', 'OpenCV'],
+    color: '#0f2233',
+    link: 'https://youtu.be/n2pJuosRAaE',
+    repo: 'https://github.com/muizjafri/Object-Detection-and-Advise',
+    views: '834 views',
+    ago: '2025',
+    description:
+      'VisionAI is a real time object detection web app where users can scan their surroundings and receive AI generated fun facts and advice from what the camera sees. Used Grounding DINO for object detection and Llama from the Hugging Face Inference API. I used Flask to build and serve the web application. Check the video below to see how it works!',
+  },
+  {
+    id: 3,
+    src: SimonGame,
+    title: 'Simon Game',
+    duration: '2:17',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev'],
+    language: ['HTML', 'CSS', 'JavaScript'],
+    color: '#122033',
+    link: 'https://youtu.be/l5ekmBkEPyQ',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '4 months',
+    ago: '2026',
+    description:
+      'Simple Simon game built with vanilla JavaScript, HTML and CSS. Check the video below to see how it works!',
+  },
+  {
+    id: 4,
+    src: EmailFinderio,
+    title: 'EmailFinderio',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: ['Web Dev'],
+    language: ['JavaScript'],
+    color: '#122033',
+    link: 'https://youtu.be/WyT0WOq_FqM',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '1 month',
+    ago: '2026',
+    description:
+      'EmailFinderio is a web application that helps users find email addresses of professionals using the Hunter.io API. Check the video below to see how it works!',
+  },
+  {
+    id: 5,
+    src: Goku,
+    title: 'Gold-Price-Prediction ML model (In Progress)',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: [' Machine Learning'],
+    language: ['Python', 'Pandas', 'Numpy', 'Scikit-learn', 'Matplotlib'],
+    color: '#122033',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '1 month',
+    ago: '2026',
+    description:
+      'Using historical gold price data, I built a machine learning model to predict future gold prices. I used various regression algorithms and compared their performance to find the best fit for the data.',
+  },
+  {
+    id: 6,
+    src: Goku,
+    title: 'Plant Classification Neural Network (In Progress)',
+    duration: '6:47',
+    author: 'Muiz Jafri',
+    tag: [' Machine Learning'],
+    language: ['Python', 'TensorFlow'],
+    color: '#122033',
+    link: 'https://www.youtube.com/@muizjafri2872',
+    repo: 'https://github.com/muizjafri/SimonGame',
+    views: '1 month',
+    ago: '2026',
+    description:
+      'Trying to build a neural network that can classify different types of plants based on their images.',
+  },
+];
+
+const experiences: Experience[] = [
+  {
+    id: 1,
+    src: Placeholder,
+    title: 'Software Engineer',
+    company: 'Air Hawk Solutions',
+    duration: '11:42',
+    tag: 'Engineering',
+    color: '#1a2744',
+    link: 'https://your-company-url.com',
+    views: '6 months',
+    ago: 'Summer 2024',
+    description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Software Engineer, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
+  },
+  {
+    id: 2,
+    src: MIST,
+    title: 'Competitions Organizer',
+    company: 'MIST Toronto',
+    duration: '12:44',
+    tag: 'Leadership',
+    color: '#0f2233',
+    link: 'https://your-company-url.com',
+    views: '1 year',
+    ago: '2023 – 2024',
+    description: 'MIST Toronto (Muslim Interscholastic Tournament) is a youth organization that runs academic and creative competitions for high school students across Ontario. As a Competitions Organizer, I help plan and coordinate event logistics, support judge coordination, and make sure competitions run smoothly on the day of the event.',
+  },
+  {
+    id: 3,
+    src: Pickering,
+    title: 'Integration Camp Counsellor',
+    company: 'City of Pickering',
+    duration: '12:44',
+    tag: 'Community',
+    color: '#122033',
+    link: 'https://your-company-url.com',
+    views: '4 months',
+    ago: 'Summer 2023',
+    description: 'As an Integration Camp Counsellor with the City of Pickering, I supported children with special needs in a camp setting and helped them participate in daily activities. My role focused on making sure each child felt included, assisting them as needed, and helping them adjust and engage comfortably within the camp environment.',
+  },
+];
+
+const PROJECT_CHIPS = [
+  { label: 'All', value: 'all' },
+  { label: 'Machine Learning', value: ' Machine Learning' },
+  { label: 'Computer Vision', value: 'Computer Vision' },
+  { label: 'Web Dev', value: 'Web Dev' },
+];
+
+const EXPERIENCE_CHIPS = [
+  { label: 'All', value: 'all' },
+  { label: 'Engineering', value: 'Engineering' },
+  { label: 'Leadership', value: 'Leadership' },
+  { label: 'Community', value: 'Community' },
+];
 
 // ─── Theme Hook ───────────────────────────────────────────────────────────────
 
@@ -46,6 +213,24 @@ function useTheme() {
   const [isDark, setIsDark] = useState(true);
   const toggle = () => setIsDark((d) => !d);
   return { isDark, toggle };
+}
+
+// ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
+
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 600 / window.innerHeight }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, visible };
 }
 
 // ─── Theme Toggle Button ──────────────────────────────────────────────────────
@@ -82,35 +267,12 @@ function ThemeToggle({ isDark, onToggle }: { isDark: boolean; onToggle: () => vo
   );
 }
 
-// ─── Scroll Reveal ────────────────────────────────────────────────────────────
-
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(entry.isIntersecting);
-      },
-      { threshold: (600 / window.innerHeight) }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, visible };
-}
-
-// ─── Channel Banner ──────────────────────────────────────────────────────────
+// ─── Channel Banner ───────────────────────────────────────────────────────────
 
 function ChannelBanner({ isDark }: { isDark: boolean }) {
   return (
     <div className="w-full relative overflow-hidden rounded-xl mx-auto" style={{ height: '180px' }}>
       <div className="absolute inset-0" style={{ background: isDark ? '#080c14' : '#dbeafe' }} />
-
       <div
         className="absolute inset-0"
         style={{
@@ -120,32 +282,26 @@ function ChannelBanner({ isDark }: { isDark: boolean }) {
           backgroundSize: '28px 28px',
         }}
       />
-
       <div
         className="absolute"
         style={{
-          width: '340px', height: '340px',
-          borderRadius: '50%',
+          width: '340px', height: '340px', borderRadius: '50%',
           background: isDark
             ? 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)'
             : 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)',
-          top: '-120px', left: '-60px',
-          pointerEvents: 'none',
+          top: '-120px', left: '-60px', pointerEvents: 'none',
         }}
       />
       <div
         className="absolute"
         style={{
-          width: '260px', height: '260px',
-          borderRadius: '50%',
+          width: '260px', height: '260px', borderRadius: '50%',
           background: isDark
             ? 'radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%)'
             : 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)',
-          bottom: '-80px', right: '80px',
-          pointerEvents: 'none',
+          bottom: '-80px', right: '80px', pointerEvents: 'none',
         }}
       />
-
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
         <h1
           className="font-bold tracking-tight"
@@ -153,13 +309,14 @@ function ChannelBanner({ isDark }: { isDark: boolean }) {
             fontSize: '2.2rem',
             letterSpacing: '-0.02em',
             color: isDark ? '#fff' : '#1e3a8a',
-            textShadow: isDark ? '0 2px 24px rgba(59,130,246,0.35)' : '0 2px 24px rgba(37,99,235,0.15)',
+            textShadow: isDark
+              ? '0 2px 24px rgba(59,130,246,0.35)'
+              : '0 2px 24px rgba(37,99,235,0.15)',
           }}
         >
           CAN Citizen · Toronto
         </h1>
       </div>
-
       <div
         className="absolute bottom-0 left-0 right-0"
         style={{
@@ -212,7 +369,7 @@ function FilterChips({
   );
 }
 
-// ─── Project Description Modal ────────────────────────────────────────────────
+// ─── Project Modal ────────────────────────────────────────────────────────────
 
 function ProjectModal({
   project,
@@ -223,21 +380,16 @@ function ProjectModal({
   onClose: () => void;
   isDark: boolean;
 }) {
-  // Close on backdrop click
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-  // Close on Escape key
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [onClose]);
 
-  // Lock body scroll while modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -255,16 +407,10 @@ function ProjectModal({
     <div
       onClick={handleBackdropClick}
       style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        background: 'rgba(0,0,0,0.65)',
-        backdropFilter: 'blur(6px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px',
-        animation: 'fadeIn 0.18s ease',
+        position: 'fixed', inset: 0, zIndex: 10000,
+        background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px', animation: 'fadeIn 0.18s ease',
       }}
     >
       <style>{`
@@ -275,303 +421,89 @@ function ProjectModal({
 
       <div
         style={{
-          background: bg,
-          border: `1px solid ${border}`,
-          borderRadius: '16px',
-          width: '100%',
-          maxWidth: '520px',
-          maxHeight: '90vh',
-          overflowY: 'auto',
+          background: bg, border: `1px solid ${border}`, borderRadius: '16px',
+          width: '100%', maxWidth: '520px', maxHeight: '90vh', overflowY: 'auto',
           boxShadow: isDark
             ? '0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05)'
             : '0 32px 80px rgba(0,0,0,0.18)',
-          animation: 'slideUp 0.22s ease',
-          scrollbarWidth: 'none',
+          animation: 'slideUp 0.22s ease', scrollbarWidth: 'none',
         }}
       >
         {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '20px 20px 16px 20px',
-            borderBottom: `1px solid ${divider}`,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: '17px',
-              fontWeight: 700,
-              color: textPrimary,
-              margin: 0,
-              paddingRight: '12px',
-              lineHeight: 1.3,
-            }}
-          >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px 20px', borderBottom: `1px solid ${divider}` }}>
+          <h2 style={{ fontSize: '17px', fontWeight: 700, color: textPrimary, margin: 0, paddingRight: '12px', lineHeight: 1.3 }}>
             {project.title}
           </h2>
           <button
             onClick={onClose}
-            style={{
-              flexShrink: 0,
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              border: `1px solid ${border}`,
-              background: 'transparent',
-              color: textMuted,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '18px',
-              lineHeight: 1,
-              transition: 'all 0.15s ease',
-            }}
+            style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', lineHeight: 1, transition: 'all 0.15s ease' }}
             title="Close"
           >
             ✕
           </button>
         </div>
 
-        {/* Thumbnail preview */}
+        {/* Thumbnail */}
         <div style={{ padding: '16px 20px 0 20px' }}>
-          <div
-            style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              borderRadius: '10px',
-              overflow: 'hidden',
-              border: `1px solid ${border}`,
-            }}
-          >
-            <img
-              src={project.src}
-              alt={project.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+          <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '10px', overflow: 'hidden', border: `1px solid ${border}` }}>
+            <img src={project.src} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
 
         {/* Body */}
         <div style={{ padding: '20px' }}>
-
-          {/* Description section */}
           <div style={{ marginBottom: '20px' }}>
-            <h3
-              style={{
-                fontSize: '15px',
-                fontWeight: 700,
-                color: textPrimary,
-                margin: '0 0 10px 0',
-              }}
-            >
-              Description
-            </h3>
-            <p
-              style={{
-                fontSize: '13.5px',
-                lineHeight: 1.7,
-                color: isDark ? '#cbd5e1' : '#374151',
-                margin: 0,
-              }}
-            >
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary, margin: '0 0 10px 0' }}>Description</h3>
+            <p style={{ fontSize: '13.5px', lineHeight: 1.7, color: isDark ? '#cbd5e1' : '#374151', margin: 0 }}>
               {project.description}
             </p>
           </div>
 
-          {/* Tags row */}
+          {/* Tags */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
             {project.tag.map((t) => (
-              <span
-                key={t}
-                style={{
-                  fontSize: '11px',
-                  padding: '3px 10px',
-                  borderRadius: '999px',
-                  background: 'rgba(37,99,235,0.18)',
-                  color: '#7eb3f5',
-                  border: '1px solid rgba(37,99,235,0.3)',
-                }}
-              >
+              <span key={t} style={{ fontSize: '11px', padding: '3px 10px', borderRadius: '999px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}>
                 {t}
               </span>
             ))}
             {project.language.map((l) => (
-              <span
-                key={l}
-                style={{
-                  fontSize: '11px',
-                  padding: '3px 10px',
-                  borderRadius: '999px',
-                  background: 'rgba(37,99,235,0.18)',
-                  color: '#6ee7b7',
-                  border: '1px solid rgba(37,99,235,0.3)',
-                }}
-              >
+              <span key={l} style={{ fontSize: '11px', padding: '3px 10px', borderRadius: '999px', background: 'rgba(37,99,235,0.18)', color: '#6ee7b7', border: '1px solid rgba(37,99,235,0.3)' }}>
                 {l}
               </span>
             ))}
           </div>
 
-          {/* Divider */}
           <div style={{ height: '1px', background: divider, marginBottom: '20px' }} />
 
-          {/* Links section */}
+          {/* Links */}
           <div style={{ marginBottom: '20px' }}>
-            <h3
-              style={{
-                fontSize: '15px',
-                fontWeight: 700,
-                color: textPrimary,
-                margin: '0 0 10px 0',
-              }}
-            >
-              Links
-            </h3>
-
-            {/* Source repo link */}
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary, margin: '0 0 10px 0' }}>Links</h3>
             <a
               href={project.repo}
               target="_blank"
               rel="noopener noreferrer"
               className="modal-link-row"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '10px 12px',
-                borderRadius: '10px',
-                background: linkRowBg,
-                textDecoration: 'none',
-                marginBottom: '8px',
-                transition: 'background 0.15s ease',
-                border: `1px solid ${border}`,
-              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '10px', background: linkRowBg, textDecoration: 'none', marginBottom: '8px', transition: 'background 0.15s ease', border: `1px solid ${border}` }}
             >
-              {/* GitHub icon */}
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill={isDark ? '#e2e8f0' : '#374151'}>
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                 </svg>
               </div>
               <div>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: textPrimary, margin: 0 }}>
-                  Source Code
-                </p>
-                <p style={{ fontSize: '11px', color: '#60a5fa', margin: 0 }}>
-                  github.com
-                </p>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: textPrimary, margin: 0 }}>Source Code</p>
+                <p style={{ fontSize: '11px', color: '#60a5fa', margin: 0 }}>github.com</p>
               </div>
             </a>
           </div>
 
-          {/* More info section */}
-          <div style={{ marginBottom: '20px' }}>
-            <h3
-              style={{
-                fontSize: '15px',
-                fontWeight: 700,
-                color: textPrimary,
-                margin: '0 0 10px 0',
-              }}
-            >
-              More info
-            </h3>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px 0',
-                borderBottom: `1px solid ${divider}`,
-              }}
-            >
-              {/* Clock icon */}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={textMuted} strokeWidth="1.8">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-              <span style={{ fontSize: '13px', color: textMuted }}>Duration: {project.duration}</span>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px 0',
-                borderBottom: `1px solid ${divider}`,
-              }}
-            >
-              {/* Eye icon */}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={textMuted} strokeWidth="1.8">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              <span style={{ fontSize: '13px', color: textMuted }}>{project.views}</span>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px 0',
-              }}
-            >
-              {/* Calendar icon */}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={textMuted} strokeWidth="1.8">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              <span style={{ fontSize: '13px', color: textMuted }}>{project.ago}</span>
-            </div>
-          </div>
-
           {/* Proceed to Video button */}
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none', display: 'block' }}
-          >
+          <a href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
             <button
-              style={{
-                width: '100%',
-                padding: '13px',
-                borderRadius: '10px',
-                background: '#dc2626',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: '14px',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                transition: 'background 0.2s ease',
-              }}
+              style={{ width: '100%', padding: '13px', borderRadius: '10px', background: '#dc2626', color: '#fff', fontWeight: 700, fontSize: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s ease' }}
               onMouseEnter={(e) => (e.currentTarget.style.background = '#b91c1c')}
               onMouseLeave={(e) => (e.currentTarget.style.background = '#dc2626')}
             >
-              {/* YouTube play icon */}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
                 <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
               </svg>
@@ -584,11 +516,89 @@ function ProjectModal({
   );
 }
 
+// ─── Experience Modal ─────────────────────────────────────────────────────────
+
+function ExperienceModal({
+  experience,
+  onClose,
+  isDark,
+}: {
+  experience: Experience;
+  onClose: () => void;
+  isDark: boolean;
+}) {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [onClose]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const bg = isDark ? '#0f172a' : '#ffffff';
+  const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const textPrimary = isDark ? '#f1f5f9' : '#111827';
+  const textMuted = isDark ? '#94a3b8' : '#6b7280';
+  const divider = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+
+  return (
+    <div
+      onClick={handleBackdropClick}
+      style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', animation: 'fadeIn 0.18s ease' }}
+    >
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
+      <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: '16px', width: '100%', maxWidth: '520px', maxHeight: '90vh', overflowY: 'auto', boxShadow: isDark ? '0 32px 80px rgba(0,0,0,0.8)' : '0 32px 80px rgba(0,0,0,0.18)', animation: 'slideUp 0.22s ease', scrollbarWidth: 'none' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px 20px', borderBottom: `1px solid ${divider}` }}>
+          <h2 style={{ fontSize: '17px', fontWeight: 700, color: textPrimary, margin: 0, paddingRight: '12px' }}>{experience.title}</h2>
+          <button onClick={onClose} style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>✕</button>
+        </div>
+        {/* Thumbnail */}
+        <div style={{ padding: '16px 20px 0 20px' }}>
+          <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '10px', overflow: 'hidden', border: `1px solid ${border}` }}>
+            <img src={experience.src} alt={experience.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+        </div>
+        {/* Body */}
+        <div style={{ padding: '20px' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary, margin: '0 0 10px 0' }}>Description</h3>
+            <p style={{ fontSize: '13.5px', lineHeight: 1.7, color: isDark ? '#cbd5e1' : '#374151', margin: 0 }}>{experience.description}</p>
+          </div>
+          <div style={{ height: '1px', background: divider, marginBottom: '20px' }} />
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary, margin: '0 0 10px 0' }}>More info</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0', borderBottom: `1px solid ${divider}` }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={textMuted} strokeWidth="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+              <span style={{ fontSize: '13px', color: textMuted }}>{experience.ago}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={textMuted} strokeWidth="1.8"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+              <span style={{ fontSize: '13px', color: textMuted }}>{experience.views}</span>
+            </div>
+          </div>
+          <a href={experience.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
 function ProjectCard({
   item,
-  index,
   isWatchLater,
   onToggleWL,
   isDark,
@@ -605,7 +615,8 @@ function ProjectCard({
 
   return (
     <div className="flex flex-col">
-      <div className="relative w-full rounded-xl overflow-hidden cursor-pointer"
+      <div
+        className="relative w-full rounded-xl overflow-hidden cursor-pointer"
         style={{ aspectRatio: '16/9' }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -617,101 +628,56 @@ function ProjectCard({
           className="w-full h-full object-cover transition-transform duration-500"
           style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
         />
-
         <div
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-200"
           style={{ background: 'rgba(0,0,0,0.42)', opacity: hovered ? 1 : 0 }}
         >
-          <div
-            className="flex items-center justify-center rounded-full"
-            style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.92)' }}
-          >
-            <svg width="14" height="16" viewBox="0 0 14 16" fill="#111">
-              <polygon points="0,0 14,8 0,16" />
-            </svg>
+          <div className="flex items-center justify-center rounded-full" style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.92)' }}>
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="#111"><polygon points="0,0 14,8 0,16" /></svg>
           </div>
         </div>
-
         <div
           className="absolute bottom-2 right-2 text-white rounded"
           style={{ background: 'rgba(0,0,0,0.85)', fontSize: '11px', padding: '2px 6px', fontFamily: 'monospace', fontWeight: 700 }}
         >
           {item.duration}
         </div>
-
         <button
           onClick={(e) => { e.stopPropagation(); onToggleWL(item.id); }}
           className="absolute top-2 right-2 rounded transition-all duration-150 flex items-center justify-center"
-          style={{
-            width: 28, height: 28,
-            background: isWatchLater ? 'rgba(239,68,68,0.88)' : 'rgba(0,0,0,0.7)',
-            opacity: hovered || isWatchLater ? 1 : 0,
-            border: 'none',
-          }}
+          style={{ width: 28, height: 28, background: isWatchLater ? 'rgba(239,68,68,0.88)' : 'rgba(0,0,0,0.7)', opacity: hovered || isWatchLater ? 1 : 0, border: 'none' }}
           title={isWatchLater ? 'Remove from Watch Later' : 'Save to Watch Later'}
         >
           {isWatchLater ? (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
           ) : (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-              <path d="M12 5v14M5 12h14" />
-            </svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
           )}
         </button>
       </div>
 
       <div className="flex gap-3 mt-3">
-        <div
-          className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold"
-          style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}
-        >
+        <div className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold" style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}>
           MJ
         </div>
-
         <div className="flex flex-col min-w-0">
           <p
             className="font-medium leading-snug cursor-pointer hover:underline"
-            style={{
-              fontSize: 13,
-              color: isDark ? '#fff' : '#111',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
+            style={{ fontSize: 13, color: isDark ? '#fff' : '#111', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
             onClick={() => onOpenModal(item)}
           >
             {item.title}
           </p>
-          <p style={{ fontSize: 11, color: isDark ? '#6b7280' : '#6b7280' }} className="mt-0.5">
-            {item.author}
-          </p>
-          <p style={{ fontSize: 11, color: isDark ? '#6b7280' : '#6b7280' }}>
-            {item.views} &nbsp;·&nbsp; {item.ago}
-          </p>
-
+          <p style={{ fontSize: 11, color: '#6b7280' }} className="mt-0.5">{item.author}</p>
+          <p style={{ fontSize: 11, color: '#6b7280' }}>{item.views} &nbsp;·&nbsp; {item.ago}</p>
           <div className="flex flex-wrap gap-1 mt-1">
             {item.tag.map((t) => (
-              <span
-                key={t}
-                className="self-start rounded-full"
-                style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}
-              >
-                {t}
-              </span>
+              <span key={t} className="self-start rounded-full" style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}>{t}</span>
             ))}
           </div>
           <div className="flex flex-wrap gap-1 mt-1">
             {item.language.map((t) => (
-              <span
-                key={t}
-                className="self-start rounded-full"
-                style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#6ee7b7', border: '1px solid rgba(37,99,235,0.3)' }}
-              >
-                {t}
-              </span>
+              <span key={t} className="self-start rounded-full" style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#6ee7b7', border: '1px solid rgba(37,99,235,0.3)' }}>{t}</span>
             ))}
           </div>
         </div>
@@ -721,13 +687,7 @@ function ProjectCard({
         <button
           onClick={() => window.open(item.repo, '_blank')}
           className="rounded-full font-medium transition-all duration-200"
-          style={{
-            fontSize: 11,
-            padding: '6px 14px',
-            background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-            color: isDark ? '#fff' : '#111',
-            border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.12)',
-          }}
+          style={{ fontSize: 11, padding: '6px 14px', background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)', color: isDark ? '#fff' : '#111', border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.12)' }}
         >
           Source
         </button>
@@ -738,7 +698,16 @@ function ProjectCard({
 
 // ─── Experience Card ──────────────────────────────────────────────────────────
 
-function ExperienceCard({ item, index, isDark }: { item: Experience; index: number; isDark: boolean }) {
+function ExperienceCard({
+  item,
+  isDark,
+  onOpenModal,
+}: {
+  item: Experience;
+  index: number;
+  isDark: boolean;
+  onOpenModal: (exp: Experience) => void;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -747,72 +716,43 @@ function ExperienceCard({ item, index, isDark }: { item: Experience; index: numb
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative w-full rounded-xl overflow-hidden cursor-pointer" style={{ aspectRatio: '16/9' }}>
+      <div
+        className="relative w-full rounded-xl overflow-hidden cursor-pointer"
+        style={{ aspectRatio: '16/9' }}
+        onClick={() => onOpenModal(item)}
+      >
         <img
           src={item.src}
           alt={item.title}
           className="w-full h-full object-cover transition-transform duration-500"
           style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
         />
-
-        <div
-          className="absolute inset-0 transition-opacity duration-200"
-          style={{ background: 'rgba(0,0,0,0.38)', opacity: hovered ? 1 : 0 }}
-        />
-
-        <div
-          className="absolute bottom-2 right-2 text-white rounded"
-          style={{ background: 'rgba(0,0,0,0.85)', fontSize: '11px', padding: '2px 6px', fontFamily: 'monospace', fontWeight: 700 }}
-        >
+        <div className="absolute inset-0 transition-opacity duration-200" style={{ background: 'rgba(0,0,0,0.38)', opacity: hovered ? 1 : 0 }} />
+        <div className="absolute bottom-2 right-2 text-white rounded" style={{ background: 'rgba(0,0,0,0.85)', fontSize: '11px', padding: '2px 6px', fontFamily: 'monospace', fontWeight: 700 }}>
           {item.duration}
         </div>
-
-        <div
-          className="absolute top-2 left-2 transition-opacity duration-200"
-          style={{ opacity: hovered ? 1 : 0 }}
-        >
-          <span
-            className="rounded-full text-blue-400"
-            style={{ fontSize: 11, padding: '3px 10px', border: '1px solid rgba(96,165,250,0.4)', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
-          >
+        <div className="absolute top-2 left-2 transition-opacity duration-200" style={{ opacity: hovered ? 1 : 0 }}>
+          <span className="rounded-full text-blue-400" style={{ fontSize: 11, padding: '3px 10px', border: '1px solid rgba(96,165,250,0.4)', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}>
             {item.tag}
           </span>
         </div>
       </div>
 
       <div className="flex gap-3 mt-3">
-        <div
-          className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold"
-          style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}
-        >
+        <div className="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold" style={{ width: 32, height: 32, background: '#2563eb', fontSize: 12 }}>
           MJ
         </div>
-
         <div className="flex flex-col min-w-0">
           <p
-            className="font-medium leading-snug"
-            style={{
-              fontSize: 13,
-              color: isDark ? '#fff' : '#111',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
+            className="font-medium leading-snug cursor-pointer hover:underline"
+            style={{ fontSize: 13, color: isDark ? '#fff' : '#111', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+            onClick={() => onOpenModal(item)}
           >
             {item.title}
           </p>
-          <p style={{ fontSize: 11, color: '#6b7280' }} className="mt-0.5">
-            {item.company}
-          </p>
-          <p style={{ fontSize: 11, color: '#6b7280' }}>
-            {item.views} &nbsp;·&nbsp; {item.ago}
-          </p>
-
-          <span
-            className="mt-1 self-start rounded-full"
-            style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}
-          >
+          <p style={{ fontSize: 11, color: '#6b7280' }} className="mt-0.5">{item.company}</p>
+          <p style={{ fontSize: 11, color: '#6b7280' }}>{item.views} &nbsp;·&nbsp; {item.ago}</p>
+          <span className="mt-1 self-start rounded-full" style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(37,99,235,0.18)', color: '#7eb3f5', border: '1px solid rgba(37,99,235,0.3)' }}>
             {item.tag}
           </span>
         </div>
@@ -821,152 +761,7 @@ function ExperienceCard({ item, index, isDark }: { item: Experience; index: numb
   );
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const projects: Project[] = [
-  {
-    id: 1,
-    src: TypingTest,
-    title: 'TypeForge',
-    duration: '11:42',
-    author: 'Muiz Jafri',
-    tag: ['Web Dev', ' Machine Learning'],
-    language: ['Python', 'JavaScript'],
-    color: '#1a2744',
-    link: 'https://youtu.be/lVE4nV1knP8',
-    repo: 'https://github.com/muizjafri/TypingTest',
-    views: '1.2k views',
-    ago: '2025',
-    description: 'This is a test description.',
-  },
-  {
-    id: 2,
-    src: objectDetection,
-    title: 'Real-Time Object Recognition & AI Assistant',
-    duration: '12:44',
-    author: 'Muiz Jafri',
-    tag: ['Computer Vision'],
-    language: ['Python', 'TensorFlow', 'OpenCV'],
-    color: '#0f2233',
-    link: 'https://youtu.be/n2pJuosRAaE',
-    repo: 'https://github.com/muizjafri/Object-Detection-and-Advise',
-    views: '834 views',
-    ago: '2025',
-    description: 'This is a test description.',
-  },
-  {
-    id: 3,
-    src: SimonGame,
-    title: 'Simon Game',
-    duration: '2:17',
-    author: 'Muiz Jafri',
-    tag: ['Web Dev'],
-    language: ['HTML', 'CSS', 'JavaScript'],
-    color: '#122033',
-    link: 'https://youtu.be/l5ekmBkEPyQ',
-    repo: 'https://github.com/muizjafri/SimonGame',
-    views: '4 months',
-    ago: '2026',
-    description: 'This is a test description.',
-  },
-  {
-    id: 4,
-    src: linkedin,
-    title: 'EmailFinderio',
-    duration: '6:47',
-    author: 'Muiz Jafri',
-    tag: ['Web Dev'],
-    language: ['JavaScript'],
-    color: '#122033',
-    link: 'https://youtu.be/WyT0WOq_FqM',
-    repo: 'https://github.com/muizjafri/SimonGame',
-    views: '1 month',
-    ago: '2026',
-    description: 'This is a test description.',
-  },
-  {
-    id: 5,
-    src: linkedin,
-    title: 'Gold-Price-Prediction ML model (In Progress)',
-    duration: '6:47',
-    author: 'Muiz Jafri',
-    tag: [' Machine Learning'],
-    language: ['Python', 'Pandas', 'Numpy', 'Scikit-learn', 'Matplotlib'],
-    color: '#122033',
-    link: 'https://www.youtube.com/@muizjafri2872',
-    repo: 'https://github.com/muizjafri/SimonGame',
-    views: '1 month',
-    ago: '2026',
-    description: 'This is a test description.',
-  },
-  {
-    id: 6,
-    src: linkedin,
-    title: 'Plant Classification Neural Network (In Progress)',
-    duration: '6:47',
-    author: 'Muiz Jafri',
-    tag: [' Machine Learning'],
-    language: ['Python', 'TensorFlow'],
-    color: '#122033',
-    link: 'https://www.youtube.com/@muizjafri2872',
-    repo: 'https://github.com/muizjafri/SimonGame',
-    views: '1 month',
-    ago: '2026',
-    description: 'This is a test description.',
-  },
-];
-
-const experiences: Experience[] = [
-  {
-    id: 1,
-    src: linkedin,
-    title: 'Software Engineer',
-    company: 'Air Hawk Solutions',
-    duration: '11:42',
-    tag: 'Engineering',
-    color: '#1a2744',
-    link: 'https://your-company-url.com',
-    views: '6 months',
-    ago: 'Summer 2024',
-  },
-  {
-    id: 2,
-    src: github,
-    title: 'Competitions Organizer',
-    company: 'MIST Toronto',
-    duration: '12:44',
-    tag: 'Leadership',
-    color: '#0f2233',
-    link: 'https://your-company-url.com',
-    views: '1 year',
-    ago: '2023 – 2024',
-  },
-  {
-    id: 3,
-    src: github,
-    title: 'Integration Camp Counsellor',
-    company: 'City of Pickering',
-    duration: '12:44',
-    tag: 'Community',
-    color: '#122033',
-    link: 'https://your-company-url.com',
-    views: '4 months',
-    ago: 'Summer 2023',
-  },
-];
-
-const PROJECT_CHIPS = [
-  { label: 'All', value: 'all' },
-  { label: 'Machine Learning', value: ' Machine Learning' },
-  { label: 'Computer Vision', value: 'Computer Vision' },
-  { label: 'Web Dev', value: 'Web Dev' },
-];
-const EXPERIENCE_CHIPS = [
-  { label: 'All', value: 'all' },
-  { label: 'Engineering', value: 'Engineering' },
-  { label: 'Leadership', value: 'Leadership' },
-  { label: 'Community', value: 'Community' },
-];
+// ─── Progress Bar ─────────────────────────────────────────────────────────────
 
 function ProgressBar({ label, value, delay, isDark }: { label: string; value: number; delay: number; isDark: boolean }) {
   const { ref, visible } = useScrollReveal();
@@ -982,24 +777,17 @@ function ProgressBar({ label, value, delay, isDark }: { label: string; value: nu
   return (
     <div ref={ref}>
       <div className="text-xs mb-1" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>{label}</div>
-      <div
-        className="w-full rounded-full h-1.5 overflow-hidden"
-        style={{ background: isDark ? '#1f2937' : '#e5e7eb' }}
-      >
+      <div className="w-full rounded-full h-1.5 overflow-hidden" style={{ background: isDark ? '#1f2937' : '#e5e7eb' }}>
         <div
           className="h-1.5 rounded-full relative overflow-hidden"
-          style={{
-            width: `${width}%`,
-            background: 'linear-gradient(90deg, #3b82f6, #60a5fa)',
-            transition: 'width 1s ease',
-          }}
-        >
-          <div className="shine" />
-        </div>
+          style={{ width: `${width}%`, background: 'linear-gradient(90deg, #3b82f6, #60a5fa)', transition: 'width 1s ease' }}
+        />
       </div>
     </div>
   );
 }
+
+// ─── Reveal ───────────────────────────────────────────────────────────────────
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const { ref, visible } = useScrollReveal();
@@ -1017,7 +805,15 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-function ProjectsScroller({ filteredProjects, watchLater, toggleWL, isDark, onOpenModal }: {
+// ─── Projects Scroller ────────────────────────────────────────────────────────
+
+function ProjectsScroller({
+  filteredProjects,
+  watchLater,
+  toggleWL,
+  isDark,
+  onOpenModal,
+}: {
   filteredProjects: Project[];
   watchLater: Set<number>;
   toggleWL: (id: number) => void;
@@ -1046,66 +842,44 @@ function ProjectsScroller({ filteredProjects, watchLater, toggleWL, isDark, onOp
     };
   }, [filteredProjects]);
 
-  const scroll = (dir: 'left' | 'right') => {
+  const scroll = (dir: 'left' | 'right') =>
     scrollRef.current?.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' });
-  };
 
-  const arrowStyle = {
-    background: isDark ? '#fff' : '#111',
-    color: isDark ? '#000' : '#fff',
-  };
+  const arrowStyle = { background: isDark ? '#fff' : '#111', color: isDark ? '#000' : '#fff' };
 
   return (
     <div className="relative">
       {canScrollLeft && (
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          style={arrowStyle}
-        >
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+        <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg" style={arrowStyle}>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
         </button>
       )}
-
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-2"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
+      <div ref={scrollRef} className="flex gap-6 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {filteredProjects.map((item, index) => (
           <div key={item.id} style={{ minWidth: '300px', maxWidth: '300px' }}>
-            <ProjectCard
-              item={item}
-              index={index}
-              isWatchLater={watchLater.has(item.id)}
-              onToggleWL={toggleWL}
-              isDark={isDark}
-              onOpenModal={onOpenModal}
-            />
+            <ProjectCard item={item} index={index} isWatchLater={watchLater.has(item.id)} onToggleWL={toggleWL} isDark={isDark} onOpenModal={onOpenModal} />
           </div>
         ))}
       </div>
-
       {canScrollRight && (
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          style={arrowStyle}
-        >
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+        <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg" style={arrowStyle}>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         </button>
       )}
     </div>
   );
 }
 
-function ExperienceScroller({ filteredExperiences, isDark }: {
+// ─── Experience Scroller ──────────────────────────────────────────────────────
+
+function ExperienceScroller({
+  filteredExperiences,
+  isDark,
+  onOpenModal,
+}: {
   filteredExperiences: Experience[];
   isDark: boolean;
+  onOpenModal: (exp: Experience) => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -1129,55 +903,35 @@ function ExperienceScroller({ filteredExperiences, isDark }: {
     };
   }, [filteredExperiences]);
 
-  const scroll = (dir: 'left' | 'right') => {
+  const scroll = (dir: 'left' | 'right') =>
     scrollRef.current?.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' });
-  };
 
-  const arrowStyle = {
-    background: isDark ? '#fff' : '#111',
-    color: isDark ? '#000' : '#fff',
-  };
+  const arrowStyle = { background: isDark ? '#fff' : '#111', color: isDark ? '#000' : '#fff' };
 
   return (
     <div className="relative">
       {canScrollLeft && (
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          style={arrowStyle}
-        >
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+        <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg" style={arrowStyle}>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
         </button>
       )}
-
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-2"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
+      <div ref={scrollRef} className="flex gap-6 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {filteredExperiences.map((item, index) => (
           <div key={item.id} style={{ minWidth: '300px', maxWidth: '300px' }}>
-            <ExperienceCard item={item} index={index} isDark={isDark} />
+            <ExperienceCard item={item} index={index} isDark={isDark} onOpenModal={onOpenModal} />
           </div>
         ))}
       </div>
-
       {canScrollRight && (
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
-          style={arrowStyle}
-        >
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+        <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full w-9 h-9 flex items-center justify-center shadow-lg" style={arrowStyle}>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         </button>
       )}
     </div>
   );
 }
+
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 function App() {
   const { isDark, toggle } = useTheme();
@@ -1189,16 +943,14 @@ function App() {
   const [projectFilter, setProjectFilter] = useState('all');
   const [expFilter, setExpFilter] = useState('all');
   const [subscribed, setSubscribed] = useState(false);
-  const [activeModal, setActiveModal] = useState<Project | null>(null);
+  const [activeProjectModal, setActiveProjectModal] = useState<Project | null>(null);
+  const [activeExpModal, setActiveExpModal] = useState<Experience | null>(null);
 
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
   }, []);
 
-  // ── Derived theme values ──────────────────────────────────────────────────
   const bg = isDark ? '#000' : '#f8fafc';
   const cardBg = isDark ? '#111827' : '#fff';
   const cardBorder = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.08)';
@@ -1241,44 +993,33 @@ function App() {
   };
 
   return (
-    <div
-      className="min-h-screen overflow-hidden transition-colors duration-300"
-      style={{ background: bg, color: textPrimary }}
-    >
+    <div className="min-h-screen overflow-hidden transition-colors duration-300" style={{ background: bg, color: textPrimary }}>
       {!introComplete && <MuizIntro onComplete={() => setIntroComplete(true)} />}
 
-      {/* ── Project Modal ── */}
-      {activeModal && (
-        <ProjectModal
-          project={activeModal}
-          onClose={() => setActiveModal(null)}
-          isDark={isDark}
-        />
+      {/* Modals */}
+      {activeProjectModal && (
+        <ProjectModal project={activeProjectModal} onClose={() => setActiveProjectModal(null)} isDark={isDark} />
+      )}
+      {activeExpModal && (
+        <ExperienceModal experience={activeExpModal} onClose={() => setActiveExpModal(null)} isDark={isDark} />
       )}
 
-      {/* ── Theme Toggle ── */}
       <ThemeToggle isDark={isDark} onToggle={toggle} />
 
       <div className="flex flex-col items-center justify-center gap-0">
-
-        {/* ── Channel Banner ── */}
+        {/* Banner */}
         <div className="w-11/12 mx-auto mt-4">
           <ChannelBanner isDark={isDark} />
         </div>
 
-        {/* ── Profile Section ── */}
+        {/* Profile */}
         <div className="w-11/12 mx-auto flex items-center gap-4 mt-4">
-          <img
-            src={face}
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
-          />
+          <img src={face} alt="Profile" className="w-32 h-32 rounded-full object-cover border-4 border-blue-500" />
           <div className="flex-1">
             <h1 className="text-3xl font-bold" style={{ color: textPrimary }}>Muiz Jafri</h1>
             <p className="text-sm mt-1" style={{ color: textMuted }}>
               Third-year Computer Engineering student at Toronto Metropolitan University.
             </p>
-
             <div className="flex gap-4 mt-2 text-sm flex-wrap" style={{ color: textMuted }}>
               <span>AI/ML Engineer</span>
               <span>·</span>
@@ -1288,25 +1029,11 @@ function App() {
               <span>·</span>
               <span className="text-green-400">● Open to work</span>
             </div>
-
             <div className="flex gap-3 mt-3 flex-wrap">
-              <a
-                href="https://github.com/muizjafri"
-                target="_blank"
-                className="px-4 py-2 rounded-full text-sm border transition duration-300"
-                style={{
-                  background: isDark ? '#1f2937' : '#f1f5f9',
-                  color: textPrimary,
-                  border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}`,
-                }}
-              >
+              <a href="https://github.com/muizjafri" target="_blank" className="px-4 py-2 rounded-full text-sm border transition duration-300" style={{ background: isDark ? '#1f2937' : '#f1f5f9', color: textPrimary, border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}` }}>
                 GitHub
               </a>
-              <a
-                href="https://www.linkedin.com/in/muiz-jafri-92655a20b/"
-                target="_blank"
-                className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-500 transition duration-300 text-sm"
-              >
+              <a href="https://www.linkedin.com/in/muiz-jafri-92655a20b/" target="_blank" className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-500 transition duration-300 text-sm">
                 LinkedIn
               </a>
               <button
@@ -1314,16 +1041,8 @@ function App() {
                 className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 style={
                   subscribed
-                    ? {
-                        background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                        color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
-                        border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(0,0,0,0.12)',
-                      }
-                    : {
-                        background: isDark ? '#fff' : '#111',
-                        color: isDark ? '#000' : '#fff',
-                        border: isDark ? '1px solid #fff' : '1px solid #111',
-                      }
+                    ? { background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)', border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(0,0,0,0.12)' }
+                    : { background: isDark ? '#fff' : '#111', color: isDark ? '#000' : '#fff', border: isDark ? '1px solid #fff' : '1px solid #111' }
                 }
               >
                 {subscribed ? 'Subscribed ✓' : 'Subscribe'}
@@ -1333,7 +1052,7 @@ function App() {
         </div>
       </div>
 
-      {/* ── Tabs ── */}
+      {/* Tabs */}
       <div className="w-11/12 mx-auto mt-8">
         <div className="flex gap-8" style={{ borderBottom: `1px solid ${tabBorder}` }}>
           {['aboutme', 'projects', 'experience'].map((tab) => (
@@ -1341,14 +1060,10 @@ function App() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className="pb-3 px-2 text-base font-medium transition-colors relative capitalize"
-              style={{
-                color: activeTab === tab ? textPrimary : textMuted,
-              }}
+              style={{ color: activeTab === tab ? textPrimary : textMuted }}
             >
               {tab === 'aboutme' ? 'About Me' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              {activeTab === tab && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />
-              )}
+              {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />}
             </button>
           ))}
         </div>
@@ -1357,27 +1072,19 @@ function App() {
       {/* ── About Me Tab ── */}
       {activeTab === 'aboutme' && (
         <div className="w-11/12 mx-auto mt-6">
-
           <Reveal delay={200}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div
-                className="md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-40"
-                style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
-              >
+              <div className="md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-40" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// whoami</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
-                  Third-year{' '}
-                  <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about building web apps and exploring
-                  new technologies. *Add more*
+                  Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
+                  Toronto Metropolitan University. Passionate about building web apps and exploring new technologies.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
               <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
                 <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
-                <p className="text-2xl font-bold leading-tight mt-2">
-                  Cloud<br />Computing<br />& DevOps
-                </p>
+                <p className="text-2xl font-bold leading-tight mt-2">Cloud<br />Computing<br />& DevOps</p>
                 <span className="text-blue-200 text-xs">AWS · Docker · K8s</span>
               </div>
             </div>
@@ -1390,10 +1097,7 @@ function App() {
               { emoji: '📺', title: 'YouTube', desc: 'Especially Mystery and True Crime!' },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 100}>
-                <div
-                  className="rounded-2xl p-5 flex flex-col gap-2"
-                  style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
-                >
+                <div className="rounded-2xl p-5 flex flex-col gap-2" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
                   <span className="text-2xl">{item.emoji}</span>
                   <p className="font-semibold text-sm" style={{ color: textPrimary }}>{item.title}</p>
                   <p className="text-xs" style={{ color: textMuted }}>{item.desc}</p>
@@ -1404,10 +1108,7 @@ function App() {
 
           <Reveal delay={0}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div
-                className="rounded-2xl p-6"
-                style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
-              >
+              <div className="rounded-2xl p-6" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Tech focus</span>
                 <div className="mt-4 flex flex-col gap-4">
                   {[
@@ -1415,63 +1116,17 @@ function App() {
                     { label: 'Machine Learning / AI', width: 66.67 },
                     { label: 'Cloud / DevOps', width: 33.33 },
                   ].map((item, i) => (
-                    <ProgressBar
-                      key={item.label}
-                      label={item.label}
-                      value={item.width}
-                      delay={i * 200}
-                      isDark={isDark}
-                    />
+                    <ProgressBar key={item.label} label={item.label} value={item.width} delay={i * 200} isDark={isDark} />
                   ))}
                 </div>
               </div>
 
-              <div
-                className="rounded-2xl p-6 flex flex-col gap-3"
-                style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
-              >
+              <div className="rounded-2xl p-6 flex flex-col gap-3" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>// contact me</span>
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition"
-                  style={{
-                    background: inputBg,
-                    border: `1px solid ${inputBorder}`,
-                    color: textPrimary,
-                  }}
-                />
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition"
-                  style={{
-                    background: inputBg,
-                    border: `1px solid ${inputBorder}`,
-                    color: textPrimary,
-                  }}
-                />
-                <textarea
-                  placeholder="Message..."
-                  rows={3}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition resize-none"
-                  style={{
-                    background: inputBg,
-                    border: `1px solid ${inputBorder}`,
-                    color: textPrimary,
-                  }}
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={status === 'sending'}
-                  className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-xl transition"
-                >
+                <input type="text" placeholder="Your name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition" style={{ background: inputBg, border: `1px solid ${inputBorder}`, color: textPrimary }} />
+                <input type="email" placeholder="Your email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition" style={{ background: inputBg, border: `1px solid ${inputBorder}`, color: textPrimary }} />
+                <textarea placeholder="Message..." rows={3} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="text-sm rounded-xl px-4 py-2.5 focus:outline-none transition resize-none" style={{ background: inputBg, border: `1px solid ${inputBorder}`, color: textPrimary }} />
+                <button onClick={handleSend} disabled={status === 'sending'} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-xl transition">
                   {status === 'sending' ? 'Sending...' : 'Send message'}
                 </button>
                 {status === 'sent' && <p className="text-green-400 text-xs text-center">Message sent!</p>}
@@ -1479,7 +1134,6 @@ function App() {
               </div>
             </div>
           </Reveal>
-
         </div>
       )}
 
@@ -1488,8 +1142,7 @@ function App() {
         <div className="w-11/12 mx-auto mt-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold" style={{ color: textPrimary }}>
-              Projects{' '}
-              <span className="font-normal text-base" style={{ color: textMuted }}>({filteredProjects.length})</span>
+              Projects <span className="font-normal text-base" style={{ color: textMuted }}>({filteredProjects.length})</span>
             </h2>
             <span className="text-right italic text-xs" style={{ color: textMuted }}>↓ Click on the videos to watch!</span>
           </div>
@@ -1497,13 +1150,9 @@ function App() {
           <FilterChips chips={PROJECT_CHIPS} active={projectFilter} onChange={setProjectFilter} isDark={isDark} />
 
           {watchLater.size > 0 && (
-            <div
-              className="mb-6 rounded-xl p-4"
-              style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
-            >
+            <div className="mb-6 rounded-xl p-4" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
               <p className="font-semibold text-sm mb-3" style={{ color: textPrimary }}>
-                Watch Later{' '}
-                <span className="font-normal" style={{ color: textMuted }}>({watchLater.size})</span>
+                Watch Later <span className="font-normal" style={{ color: textMuted }}>({watchLater.size})</span>
               </p>
               <div className="flex flex-col gap-2">
                 {projects.filter((p) => watchLater.has(p.id)).map((p) => (
@@ -1515,37 +1164,18 @@ function App() {
                       <p className="font-medium truncate" style={{ fontSize: 12, color: textPrimary }}>{p.title}</p>
                       <p style={{ fontSize: 11, color: textMuted }}>{p.ago}</p>
                     </div>
-                    <button
-                      onClick={() => toggleWL(p.id)}
-                      className="transition text-lg leading-none"
-                      style={{ color: textMuted }}
-                    >
-                      ✕
-                    </button>
+                    <button onClick={() => toggleWL(p.id)} className="transition text-lg leading-none" style={{ color: textMuted }}>✕</button>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          <ProjectsScroller
-            filteredProjects={filteredProjects}
-            watchLater={watchLater}
-            toggleWL={toggleWL}
-            isDark={isDark}
-            onOpenModal={setActiveModal}
-          />
+          <ProjectsScroller filteredProjects={filteredProjects} watchLater={watchLater} toggleWL={toggleWL} isDark={isDark} onOpenModal={setActiveProjectModal} />
 
           <div className="flex justify-center mt-8 mb-8">
             <a href="https://github.com/muizjafri?tab=repositories" target="_blank" rel="noopener noreferrer">
-              <button
-                className="group flex items-center gap-3 px-8 py-4 rounded-full text-base font-medium transition-all duration-300"
-                style={{
-                  background: cardBg,
-                  color: textPrimary,
-                  border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}`,
-                }}
-              >
+              <button className="group flex items-center gap-3 px-8 py-4 rounded-full text-base font-medium transition-all duration-300" style={{ background: cardBg, color: textPrimary, border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}` }}>
                 View More Projects
                 <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1561,29 +1191,23 @@ function App() {
         <div className="w-11/12 mx-auto mt-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold" style={{ color: textPrimary }}>
-              Experience{' '}
-              <span className="font-normal text-base" style={{ color: textMuted }}>({filteredExperiences.length})</span>
+              Experience <span className="font-normal text-base" style={{ color: textMuted }}>({filteredExperiences.length})</span>
             </h2>
           </div>
 
           <FilterChips chips={EXPERIENCE_CHIPS} active={expFilter} onChange={setExpFilter} isDark={isDark} />
 
-          <ExperienceScroller filteredExperiences={filteredExperiences} isDark={isDark} />
+          <ExperienceScroller filteredExperiences={filteredExperiences} isDark={isDark} onOpenModal={setActiveExpModal} />
 
           <div className="flex justify-center mt-8 mb-8">
-            <button
-              className="group flex items-center gap-3 px-8 py-4 rounded-full text-base font-medium transition-all duration-300"
-              style={{
-                background: cardBg,
-                color: textPrimary,
-                border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}`,
-              }}
-            >
-              <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              Download my Resume!
-            </button>
+            <a href={resume} download="MuizJafriResume.pdf">
+              <button className="group flex items-center gap-3 px-8 py-4 rounded-full text-base font-medium transition-all duration-300" style={{ background: cardBg, color: textPrimary, border: `1px solid ${isDark ? '#374151' : '#cbd5e1'}` }}>
+                <svg className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download my Resume!
+              </button>
+            </a>
           </div>
         </div>
       )}
