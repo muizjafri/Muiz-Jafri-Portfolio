@@ -1,5 +1,3 @@
-import github from './assets/githublogo.png';
-import linkedin from './assets/linkedinlogo.png';
 import face from './assets/myface.png';
 import { useState, useEffect, useRef } from 'react';
 import MuizIntro from './MuizIntro';
@@ -18,7 +16,7 @@ const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
 const EMAILJS_PUBLIC_KEY = 'dbAiIXD2czrnQxLgZ';
 
-// ─── Interfaces ───────────────────────────────────────────────────────────────
+// ─── Interfaces 
 
 interface Project {
   id: number;
@@ -111,7 +109,7 @@ const projects: Project[] = [
     language: ['JavaScript'],
     color: '#122033',
     link: 'https://youtu.be/WyT0WOq_FqM',
-    repo: 'https://github.com/muizjafri/SimonGame',
+    repo: 'https://github.com/muizjafri/linkedin-email-finder-extension',
     views: '1 month',
     ago: '2026',
     description:
@@ -127,7 +125,7 @@ const projects: Project[] = [
     language: ['Python', 'Pandas', 'Numpy', 'Scikit-learn', 'Matplotlib'],
     color: '#122033',
     link: 'https://www.youtube.com/@muizjafri2872',
-    repo: 'https://github.com/muizjafri/SimonGame',
+    repo: 'https://github.com/muizjafri/Gold-Price-Predictor',
     views: '1 month',
     ago: '2026',
     description:
@@ -143,7 +141,7 @@ const projects: Project[] = [
     language: ['Python', 'TensorFlow'],
     color: '#122033',
     link: 'https://www.youtube.com/@muizjafri2872',
-    repo: 'https://github.com/muizjafri/SimonGame',
+    repo: 'https://github.com/muizjafri/PlantClassification.git',
     views: '1 month',
     ago: '2026',
     description:
@@ -207,7 +205,7 @@ const EXPERIENCE_CHIPS = [
   { label: 'Community', value: 'Community' },
 ];
 
-// ─── Theme Hook ───────────────────────────────────────────────────────────────
+// ─── Theme  
 
 function useTheme() {
   const [isDark, setIsDark] = useState(true);
@@ -215,7 +213,7 @@ function useTheme() {
   return { isDark, toggle };
 }
 
-// ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
+// ─── Scroll Reveal Hook 
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -233,7 +231,7 @@ function useScrollReveal() {
   return { ref, visible };
 }
 
-// ─── Theme Toggle Button ──────────────────────────────────────────────────────
+// ─── Theme Toggle Button 
 
 function ThemeToggle({ isDark, onToggle }: { isDark: boolean; onToggle: () => void }) {
   return (
@@ -262,12 +260,12 @@ function ThemeToggle({ isDark, onToggle }: { isDark: boolean; onToggle: () => vo
         fontSize: '20px',
       }}
     >
-      {isDark ? '☀️' : '🌙'}
+      {isDark ? '🌞' : '🌑'}
     </button>
   );
 }
 
-// ─── Channel Banner ───────────────────────────────────────────────────────────
+// ─── Channel Banner 
 
 function ChannelBanner({ isDark }: { isDark: boolean }) {
   return (
@@ -330,7 +328,7 @@ function ChannelBanner({ isDark }: { isDark: boolean }) {
   );
 }
 
-// ─── Filter Chips ─────────────────────────────────────────────────────────────
+// ─── Filter Chips 
 
 function FilterChips({
   chips,
@@ -369,7 +367,7 @@ function FilterChips({
   );
 }
 
-// ─── Project Modal ────────────────────────────────────────────────────────────
+// ─── Project Modal
 
 function ProjectModal({
   project,
@@ -497,26 +495,31 @@ function ProjectModal({
             </a>
           </div>
 
-          {/* Proceed to Video button */}
-          <a href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
-            <button
-              style={{ width: '100%', padding: '13px', borderRadius: '10px', background: '#dc2626', color: '#fff', fontWeight: 700, fontSize: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s ease' }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#b91c1c')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = '#dc2626')}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-              Proceed to Video
-            </button>
-          </a>
+          {project.link.includes('youtube.com/@') ? (
+            <div style={{ width: '100%', padding: '13px', borderRadius: '10px', background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', border: `1px solid ${border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <span style={{ fontWeight: 700, fontSize: '14px', color: textMuted }}>Work in Progress!</span>
+            </div>
+          ) : (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+              <button
+                style={{ width: '100%', padding: '13px', borderRadius: '10px', background: '#dc2626', color: '#fff', fontWeight: 700, fontSize: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s ease' }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#b91c1c')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = '#dc2626')}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                  <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                Proceed to Video
+              </button>
+            </a>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Experience Modal ─────────────────────────────────────────────────────────
+// ─── Experience Modal
 
 function ExperienceModal({
   experience,
@@ -595,7 +598,7 @@ function ExperienceModal({
   );
 }
 
-// ─── Project Card ─────────────────────────────────────────────────────────────
+// ─── Project Card
 
 function ProjectCard({
   item,
@@ -696,7 +699,7 @@ function ProjectCard({
   );
 }
 
-// ─── Experience Card ──────────────────────────────────────────────────────────
+// ─── Experience Card 
 
 function ExperienceCard({
   item,
@@ -761,7 +764,7 @@ function ExperienceCard({
   );
 }
 
-// ─── Progress Bar ─────────────────────────────────────────────────────────────
+// ─── Progress Bar 
 
 function ProgressBar({ label, value, delay, isDark }: { label: string; value: number; delay: number; isDark: boolean }) {
   const { ref, visible } = useScrollReveal();
@@ -787,7 +790,7 @@ function ProgressBar({ label, value, delay, isDark }: { label: string; value: nu
   );
 }
 
-// ─── Reveal ───────────────────────────────────────────────────────────────────
+// ─── Reveal 
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const { ref, visible } = useScrollReveal();
@@ -805,7 +808,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-// ─── Projects Scroller ────────────────────────────────────────────────────────
+// ─── Projects Scroller
 
 function ProjectsScroller({
   filteredProjects,
@@ -870,7 +873,7 @@ function ProjectsScroller({
   );
 }
 
-// ─── Experience Scroller ──────────────────────────────────────────────────────
+// ─── Experience Scroller 
 
 function ExperienceScroller({
   filteredExperiences,
@@ -931,7 +934,7 @@ function ExperienceScroller({
   );
 }
 
-// ─── App ──────────────────────────────────────────────────────────────────────
+// ─── App 
 
 function App() {
   const { isDark, toggle } = useTheme();
@@ -1075,7 +1078,7 @@ function App() {
           <Reveal delay={200}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-40" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
-                <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// whoami</span>
+                <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
                   Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
                   Toronto Metropolitan University. Passionate about building web apps and exploring new technologies.
@@ -1092,7 +1095,7 @@ function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             {[
-              { emoji: '🍜', title: 'Food Explorer', desc: 'Always love to try new food! (Favourite is Shawarma)' },
+              { emoji: '🌯', title: 'Food Explorer', desc: 'Always love to try new food! (Favourite is Shawarma)' },
               { emoji: '🎮', title: 'Gamer', desc: 'League of Legends, Valorant, Marvel Rivals (spent too much time on them)' },
               { emoji: '📺', title: 'YouTube', desc: 'Especially Mystery and True Crime!' },
             ].map((item, i) => (
