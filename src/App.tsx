@@ -11,12 +11,13 @@ import Goku from './assets/Gokuthumbsup.png';
 import Pickering from './assets/Pickering.png';
 import Placeholder from './assets/placeholderimage.png';
 import resume from './assets/AIMuizJ.pdf';
+import DENC from './assets/DENC.png';
 
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
 const EMAILJS_PUBLIC_KEY = 'dbAiIXD2czrnQxLgZ';
 
-// ─── Interfaces 
+// Interfaces 
 
 interface Project {
   id: number;
@@ -48,7 +49,7 @@ interface Experience {
   description: string;
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// Data
 
 const projects: Project[] = [
   {
@@ -152,11 +153,24 @@ const projects: Project[] = [
 const experiences: Experience[] = [
   {
     id: 1,
+    src: DENC,
+    title: 'Fundraising Organizer',
+    company: 'Durham Employment and Newcomer Centre',
+    duration: '2:00',
+    tag: 'Project Management',
+    color: '#1a2744',
+    link: 'https://your-company-url.com',
+    views: '2 months',
+    ago: 'Summer 2026',
+    description: 'Built and maintained Excel-based tracking systems to monitor fundraising performance across 100+ donors and sponsors. Analyzed campaign data using spreadsheets and dashboards to identify trends and support outreach planning. Created reports and organized documentation used by internal teams to track progress and evaluate fundraising effectiveness.'
+  },
+  {
+    id: 2,
     src: Placeholder,
     title: 'Software Engineer',
     company: 'Air Hawk Solutions',
     duration: '11:42',
-    tag: 'Engineering',
+    tag: 'Engineering , Project Management',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: '6 months',
@@ -164,12 +178,12 @@ const experiences: Experience[] = [
     description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Software Engineer, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
   },
   {
-    id: 2,
+    id: 3,
     src: MIST,
     title: 'Competitions Organizer',
     company: 'MIST Toronto',
     duration: '12:44',
-    tag: 'Leadership',
+    tag: 'Project Management',
     color: '#0f2233',
     link: 'https://your-company-url.com',
     views: '1 year',
@@ -177,7 +191,7 @@ const experiences: Experience[] = [
     description: 'MIST Toronto (Muslim Interscholastic Tournament) is a youth organization that runs academic and creative competitions for high school students across Ontario. As a Competitions Organizer, I help plan and coordinate event logistics, support judge coordination, and make sure competitions run smoothly on the day of the event.',
   },
   {
-    id: 3,
+    id: 4,
     src: Pickering,
     title: 'Integration Camp Counsellor',
     company: 'City of Pickering',
@@ -200,8 +214,8 @@ const PROJECT_CHIPS = [
 
 const EXPERIENCE_CHIPS = [
   { label: 'All', value: 'all' },
+  { label: 'Project Management', value: 'Project Management' },
   { label: 'Engineering', value: 'Engineering' },
-  { label: 'Leadership', value: 'Leadership' },
   { label: 'Community', value: 'Community' },
 ];
 
@@ -1024,6 +1038,8 @@ function App() {
               Third-year Computer Engineering student at Toronto Metropolitan University.
             </p>
             <div className="flex gap-4 mt-2 text-sm flex-wrap" style={{ color: textMuted }}>
+              <span>Project Management</span>
+              <span>·</span>
               <span>AI/ML Engineer</span>
               <span>·</span>
               <span>Full-Stack Developer</span>
@@ -1081,14 +1097,14 @@ function App() {
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
                   Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about building web apps and exploring new technologies.
+                  Toronto Metropolitan University. Passionate about project management, software engineering,  and applying AI to build practical, scalable applications.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
               <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
                 <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
-                <p className="text-2xl font-bold leading-tight mt-2">Cloud<br />Computing<br />& DevOps</p>
-                <span className="text-blue-200 text-xs">AWS · Docker · K8s</span>
+                <p className="text-2xl font-bold leading-tight mt-2">Agile<br />Delivery<br /></p>
+                <span className="text-blue-200 text-xs">Jira · Confluence · Sprint Planning </span>
               </div>
             </div>
           </Reveal>
@@ -1115,9 +1131,10 @@ function App() {
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Tech focus</span>
                 <div className="mt-4 flex flex-col gap-4">
                   {[
-                    { label: 'Full Stack / Web Dev', width: 91.67 },
-                    { label: 'Machine Learning / AI', width: 66.67 },
-                    { label: 'Cloud / DevOps', width: 33.33 },
+                    { label: 'Project Management', width: 91.67 },
+                    { label: 'AI/ Machine Learning', width: 90 },
+                    { label: 'Full Stack / Web Dev', width: 76 },
+                   
                   ].map((item, i) => (
                     <ProgressBar key={item.label} label={item.label} value={item.width} delay={i * 200} isDark={isDark} />
                   ))}
