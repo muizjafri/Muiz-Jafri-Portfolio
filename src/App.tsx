@@ -10,8 +10,9 @@ import MIST from './assets/MIST_Toronto.png';
 import Goku from './assets/Gokuthumbsup.png';
 import Pickering from './assets/Pickering.png';
 import Placeholder from './assets/placeholderimage.png';
-import resume from './assets/AIMuizJ.pdf';
+import resume from './assets/Proj_Managment_Muiz.pdf';
 import DENC from './assets/DENC.png';
+import V4TMU from './assets/vision4all.png';
 
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
@@ -151,8 +152,21 @@ const projects: Project[] = [
 ];
 
 const experiences: Experience[] = [
-  {
+    {
     id: 1,
+    src: V4TMU,
+    title: 'Vice-President of Events',
+    company: 'Vision4AllTMU',
+    duration: '20:24',
+    tag: 'Project Management, Community',
+    color: '#1a2744',
+    link: 'https://your-company-url.com',
+    views: 'Present',
+    ago: 'Aug 2024 – Present',
+    description: 'Built and maintained Excel-based tracking systems to monitor fundraising performance across 100+ donors and sponsors. Analyzed campaign data using spreadsheets and dashboards to identify trends and support outreach planning. Created reports and organized documentation used by internal teams to track progress and evaluate fundraising effectiveness.'
+  },
+  {
+    id: 2,
     src: DENC,
     title: 'Fundraising Organizer',
     company: 'Durham Employment and Newcomer Centre',
@@ -165,7 +179,7 @@ const experiences: Experience[] = [
     description: 'Built and maintained Excel-based tracking systems to monitor fundraising performance across 100+ donors and sponsors. Analyzed campaign data using spreadsheets and dashboards to identify trends and support outreach planning. Created reports and organized documentation used by internal teams to track progress and evaluate fundraising effectiveness.'
   },
   {
-    id: 2,
+    id: 3,
     src: Placeholder,
     title: 'Software Engineer',
     company: 'Air Hawk Solutions',
@@ -178,7 +192,7 @@ const experiences: Experience[] = [
     description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Software Engineer, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
   },
   {
-    id: 3,
+    id: 4,
     src: MIST,
     title: 'Competitions Organizer',
     company: 'MIST Toronto',
@@ -191,7 +205,7 @@ const experiences: Experience[] = [
     description: 'MIST Toronto (Muslim Interscholastic Tournament) is a youth organization that runs academic and creative competitions for high school students across Ontario. As a Competitions Organizer, I help plan and coordinate event logistics, support judge coordination, and make sure competitions run smoothly on the day of the event.',
   },
   {
-    id: 4,
+    id: 5,
     src: Pickering,
     title: 'Integration Camp Counsellor',
     company: 'City of Pickering',
@@ -1131,7 +1145,7 @@ function App() {
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Tech focus</span>
                 <div className="mt-4 flex flex-col gap-4">
                   {[
-                    { label: 'Project Management', width: 91.67 },
+                    { label: 'Project/Product Management', width: 91.67 },
                     { label: 'AI/ Machine Learning', width: 90 },
                     { label: 'Full Stack / Web Dev', width: 76 },
                    
