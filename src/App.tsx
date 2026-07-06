@@ -9,7 +9,7 @@ import EmailFinderio from './assets/EmailFinderio.png';
 import MIST from './assets/MIST_Toronto.png';
 import Goku from './assets/Gokuthumbsup.png';
 import Pickering from './assets/Pickering.png';
-import Placeholder from './assets/placeholderimage.png';
+import Placeholder from './assets/Droneimagee.png';
 import resume from './assets/Proj_Managment_Muiz.pdf';
 import DENC from './assets/DENC.png';
 import V4TMU from './assets/vision4all.png';
@@ -181,15 +181,15 @@ const experiences: Experience[] = [
   {
     id: 3,
     src: Placeholder,
-    title: 'Software Engineer',
+    title: 'Technical Systems',
     company: 'Air Hawk Solutions',
     duration: '11:42',
-    tag: 'Engineering',
+    tag: 'Project Management, Engineering',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: '6 months',
     ago: 'Summer 2024',
-    description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Software Engineer, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
+    description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Technical Systems, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
   },
   {
     id: 4,
