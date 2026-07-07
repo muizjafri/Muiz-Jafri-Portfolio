@@ -187,8 +187,8 @@ const experiences: Experience[] = [
     tag: 'Project Management, Engineering',
     color: '#1a2744',
     link: 'https://your-company-url.com',
-    views: '6 months',
-    ago: 'Summer 2024',
+    views: '12 months',
+    ago: 'Summer 2025 - Summer 2026',
     description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Technical Systems, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
   },
   {
@@ -201,7 +201,7 @@ const experiences: Experience[] = [
     color: '#0f2233',
     link: 'https://your-company-url.com',
     views: '1 year',
-    ago: '2023 – 2024',
+    ago: '2025 – 2026',
     description: 'MIST Toronto (Muslim Interscholastic Tournament) is a youth organization that runs academic and creative competitions for high school students across Ontario. As a Competitions Organizer, I help plan and coordinate event logistics, support judge coordination, and make sure competitions run smoothly on the day of the event.',
   },
   {
@@ -214,7 +214,7 @@ const experiences: Experience[] = [
     color: '#122033',
     link: 'https://your-company-url.com',
     views: '4 months',
-    ago: 'Summer 2023',
+    ago: 'Summer 2025',
     description: 'As an Integration Camp Counsellor with the City of Pickering, I supported children with special needs in a camp setting and helped them participate in daily activities. My role focused on making sure each child felt included, assisting them as needed, and helping them adjust and engage comfortably within the camp environment.',
   },
 ];
