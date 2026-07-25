@@ -10,7 +10,7 @@ import MIST from './assets/MIST_Toronto.png';
 import Goku from './assets/Gokuthumbsup.png';
 import Pickering from './assets/Pickering.png';
 import Placeholder from './assets/Droneimagee.png';
-import resume from './assets/Proj_Managment_Muiz.pdf';
+import resume from './assets/ProductManagementMuizJ.pdf';
 import DENC from './assets/DENC.png';
 import V4TMU from './assets/vision4all.png';
 
