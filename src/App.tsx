@@ -163,7 +163,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: 'Present',
     ago: 'Aug 2024 – Present',
-    description: 'Built and maintained Excel-based tracking systems to monitor fundraising performance across 100+ donors and sponsors. Analyzed campaign data using spreadsheets and dashboards to identify trends and support outreach planning. Created reports and organized documentation used by internal teams to track progress and evaluate fundraising effectiveness.'
+    description: 'Led fundraising and awareness initiatives by improving how our team tracked donor engagement. Built simple systems to organize outreach data, identify trends, and help the team focus on the campaigns that would have the biggest impact.'
   },
   {
     id: 2,
@@ -176,7 +176,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: '2 months',
     ago: 'Summer 2026',
-    description: 'Built and maintained Excel-based tracking systems to monitor fundraising performance across 100+ donors and sponsors. Analyzed campaign data using spreadsheets and dashboards to identify trends and support outreach planning. Created reports and organized documentation used by internal teams to track progress and evaluate fundraising effectiveness.'
+    description: 'Managed fundraising data across 100+ donors and sponsors by creating dashboards that made campaign performance easier to understand. Used those insights to help prioritize outreach efforts and improve coordination across the team.'
   },
   {
     id: 3,
@@ -189,7 +189,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: '12 months',
     ago: 'Summer 2025 - Summer 2026',
-    description: 'Air Hawk Solutions is a startup run by fellow university students building an autonomous drone system. As a Technical Systems, my role involves integrating LiDAR and AI sensors onto the Jetson Nano Orin platform, developing real-time object detection and SLAM algorithms, and implementing ROS nodes for flight control and sensor communication.',
+    description: 'Worked on an autonomous drone platform by building AI pipelines for processing sensor data and supporting real-time object detection. Collaborated across hardware and software, balancing model performance, system constraints, and project timelines to deliver reliable solutions.',
   },
   {
     id: 4,
@@ -202,7 +202,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: '1 year',
     ago: '2025 – 2026',
-    description: 'MIST Toronto (Muslim Interscholastic Tournament) is a youth organization that runs academic and creative competitions for high school students across Ontario. As a Competitions Organizer, I help plan and coordinate event logistics, support judge coordination, and make sure competitions run smoothly on the day of the event.',
+    description: 'Coordinated academic competitions by working with judges, volunteers, and event organizers throughout the planning process. Balanced changing priorities, solved logistical challenges, and helped ensure events ran smoothly from start to finish.',
   },
   {
     id: 5,
@@ -215,7 +215,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: '4 months',
     ago: 'Summer 2025',
-    description: 'As an Integration Camp Counsellor with the City of Pickering, I supported children with special needs in a camp setting and helped them participate in daily activities. My role focused on making sure each child felt included, assisting them as needed, and helping them adjust and engage comfortably within the camp environment.',
+    description: 'Supported children with special needs by adapting activities to each individuals abilities and interests. The role strengthened my communication, problem-solving, and ability to understand different user needs when making decisions.',
   },
 ];
 
@@ -228,7 +228,7 @@ const PROJECT_CHIPS = [
 
 const EXPERIENCE_CHIPS = [
   { label: 'All', value: 'all' },
-  { label: 'Project Management', value: 'Project Management' },
+  { label: 'Product Management', value: 'Product Management' },
   { label: 'Engineering', value: 'Engineering' },
   { label: 'Community', value: 'Community' },
 ];
@@ -1052,7 +1052,7 @@ function App() {
               Third-year Computer Engineering student at Toronto Metropolitan University.
             </p>
             <div className="flex gap-4 mt-2 text-sm flex-wrap" style={{ color: textMuted }}>
-              <span>Project Management</span>
+              <span>Product Management</span>
               <span>·</span>
               <span>AI/ML Engineer</span>
               <span>·</span>
@@ -1111,14 +1111,14 @@ function App() {
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
                   Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about project management, software engineering,  and applying AI to build practical, scalable applications.
+                  Toronto Metropolitan University. Passionate about product strategy, software engineering, and applying AI to build things people actually want to use.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
               <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
                 <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
-                <p className="text-2xl font-bold leading-tight mt-2">Agile<br />Delivery<br /></p>
-                <span className="text-blue-200 text-xs">Jira · Confluence · Sprint Planning </span>
+                <p className="text-2xl font-bold leading-tight mt-2">Product<br />Discovery<br /></p>
+                <span className="text-blue-200 text-xs">User Research · Roadmapping · Collaboration </span>
               </div>
             </div>
           </Reveal>
@@ -1145,7 +1145,7 @@ function App() {
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Tech focus</span>
                 <div className="mt-4 flex flex-col gap-4">
                   {[
-                    { label: 'Project/Product Management', width: 91.67 },
+                    { label: 'Product Management', width: 91.67 },
                     { label: 'AI/ Machine Learning', width: 90 },
                     { label: 'Full Stack / Web Dev', width: 76 },
                    
