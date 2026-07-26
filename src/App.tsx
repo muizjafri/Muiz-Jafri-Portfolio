@@ -13,7 +13,7 @@ import Placeholder from './assets/Droneimagee.png';
 import resume from './assets/ProductManagementMuizJ.pdf';
 import DENC from './assets/DENC.png';
 import V4TMU from './assets/vision4all.png';
-
+import Toronto from './assets/Toronto.png';
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
 const EMAILJS_PUBLIC_KEY = 'dbAiIXD2czrnQxLgZ';
@@ -158,7 +158,7 @@ const experiences: Experience[] = [
     title: 'Vice-President of Events',
     company: 'Vision4All TMU',
     duration: '20:24',
-    tag: 'Project Management, Community',
+    tag: 'Product Management, Leadership',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: 'Present',
@@ -171,7 +171,7 @@ const experiences: Experience[] = [
     title: 'Fundraising Organizer',
     company: 'Durham Employment and Newcomer Centre',
     duration: '2:00',
-    tag: 'Project Management',
+    tag: 'Leadership & Community',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: '2 months',
@@ -184,7 +184,7 @@ const experiences: Experience[] = [
     title: 'Technical Systems',
     company: 'Air Hawk Solutions',
     duration: '11:42',
-    tag: 'Project Management, Engineering',
+    tag: 'Product Management, Engineering',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: '12 months',
@@ -197,7 +197,7 @@ const experiences: Experience[] = [
     title: 'Competitions Organizer',
     company: 'MIST Toronto',
     duration: '12:44',
-    tag: 'Project Management',
+    tag: 'Leadership & Community',
     color: '#0f2233',
     link: 'https://your-company-url.com',
     views: '1 year',
@@ -210,7 +210,7 @@ const experiences: Experience[] = [
     title: 'Integration Camp Counsellor',
     company: 'City of Pickering',
     duration: '12:44',
-    tag: 'Community',
+    tag: 'Leadership & Community',
     color: '#122033',
     link: 'https://your-company-url.com',
     views: '4 months',
@@ -230,7 +230,7 @@ const EXPERIENCE_CHIPS = [
   { label: 'All', value: 'all' },
   { label: 'Product Management', value: 'Product Management' },
   { label: 'Engineering', value: 'Engineering' },
-  { label: 'Community', value: 'Community' },
+  { label: 'Leadership & Community', value: 'Leadership & Community' },
 ];
 
 // ─── Theme  
@@ -293,65 +293,46 @@ function ThemeToggle({ isDark, onToggle }: { isDark: boolean; onToggle: () => vo
   );
 }
 
-// ─── Channel Banner 
 
 function ChannelBanner({ isDark }: { isDark: boolean }) {
   return (
     <div className="w-full relative overflow-hidden rounded-xl mx-auto" style={{ height: '180px' }}>
-      <div className="absolute inset-0" style={{ background: isDark ? '#080c14' : '#dbeafe' }} />
+      <img
+        src={Toronto}
+        alt="Toronto skyline"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ objectPosition: 'center 45%' }}
+      />
+
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: isDark
-            ? 'radial-gradient(circle, rgba(59,130,246,0.25) 1px, transparent 1px)'
-            : 'radial-gradient(circle, rgba(37,99,235,0.15) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
+          background: isDark
+            ? 'rgba(0,0,0,0.45)'
+            : 'rgba(0,0,0,0.25)',
         }}
       />
       <div
-        className="absolute"
+        className="absolute bottom-0 left-0 right-0"
         style={{
-          width: '340px', height: '340px', borderRadius: '50%',
-          background: isDark
-            ? 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)',
-          top: '-120px', left: '-60px', pointerEvents: 'none',
+          height: '48px',
+          background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.55))',
         }}
       />
-      <div
-        className="absolute"
-        style={{
-          width: '260px', height: '260px', borderRadius: '50%',
-          background: isDark
-            ? 'radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)',
-          bottom: '-80px', right: '80px', pointerEvents: 'none',
-        }}
-      />
+
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
         <h1
           className="font-bold tracking-tight"
           style={{
             fontSize: '2.2rem',
             letterSpacing: '-0.02em',
-            color: isDark ? '#fff' : '#1e3a8a',
-            textShadow: isDark
-              ? '0 2px 24px rgba(59,130,246,0.35)'
-              : '0 2px 24px rgba(37,99,235,0.15)',
+            color: '#fff',
+            textShadow: '0 2px 24px rgba(0,0,0,0.6)',
           }}
         >
           CAN Citizen · Toronto
         </h1>
       </div>
-      <div
-        className="absolute bottom-0 left-0 right-0"
-        style={{
-          height: '48px',
-          background: isDark
-            ? 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.55))'
-            : 'linear-gradient(to bottom, transparent, rgba(219,234,254,0.6))',
-        }}
-      />
     </div>
   );
 }
@@ -1052,11 +1033,11 @@ function App() {
               Third-year Computer Engineering student at Toronto Metropolitan University.
             </p>
             <div className="flex gap-4 mt-2 text-sm flex-wrap" style={{ color: textMuted }}>
-              <span>Product Management</span>
+              <span>Technical Product & Project Management</span>
               <span>·</span>
-              <span>AI/ML Engineer</span>
+              <span>AI/ML</span>
               <span>·</span>
-              <span>Full-Stack Developer</span>
+              <span>SWE</span>
               <span>·</span>
               <span>3rd year · Computer Engineering</span>
               <span>·</span>
@@ -1111,7 +1092,7 @@ function App() {
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
                   Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about product strategy, software engineering, and applying AI to build things people actually want to use.
+                  Toronto Metropolitan University. Passionate about solving problems, software engineering, and applying AI to build things people actually want to use.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
@@ -1142,13 +1123,13 @@ function App() {
           <Reveal delay={0}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="rounded-2xl p-6" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
-                <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Tech focus</span>
-                <div className="mt-4 flex flex-col gap-4">
+                <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Areas of Focus</span>
+                <div className="mt-4 flex flex-col gap-9">
                   {[
                     { label: 'Product Management', width: 91.67 },
                     { label: 'AI/ Machine Learning', width: 90 },
                     { label: 'Full Stack / Web Dev', width: 76 },
-                   
+
                   ].map((item, i) => (
                     <ProgressBar key={item.label} label={item.label} value={item.width} delay={i * 200} isDark={isDark} />
                   ))}
