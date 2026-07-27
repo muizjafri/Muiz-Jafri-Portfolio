@@ -948,7 +948,6 @@ function ExperienceScroller({
 function App() {
   const { isDark, toggle } = useTheme();
   const [activeTab, setActiveTab] = useState('aboutme');
-  const [introComplete, setIntroComplete] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [watchLater, setWatchLater] = useState<Set<number>>(new Set());
@@ -1005,7 +1004,7 @@ function App() {
   };
 
   return (
-  <MuizIntro onComplete={() => setIntroComplete(true)}>
+  <MuizIntro onComplete={() => {}}>
     <div className="min-h-screen overflow-hidden transition-colors duration-300" style={{ background: bg, color: textPrimary }}>
 
       {/* Modals */}
