@@ -1005,8 +1005,8 @@ function App() {
   };
 
   return (
+  <MuizIntro onComplete={() => setIntroComplete(true)}>
     <div className="min-h-screen overflow-hidden transition-colors duration-300" style={{ background: bg, color: textPrimary }}>
-      {!introComplete && <MuizIntro onComplete={() => setIntroComplete(true)} />}
 
       {/* Modals */}
       {activeProjectModal && (
@@ -1227,6 +1227,7 @@ function App() {
         </div>
       )}
     </div>
+    </MuizIntro>
   );
 }
 
