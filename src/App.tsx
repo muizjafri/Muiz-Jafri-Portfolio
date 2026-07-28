@@ -158,7 +158,7 @@ const experiences: Experience[] = [
     title: 'Vice-President of Events',
     company: 'Vision4All TMU',
     duration: '20:24',
-    tag: 'Product Management, Leadership',
+    tag: 'Project Management, Leadership',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: 'Present',
@@ -171,7 +171,7 @@ const experiences: Experience[] = [
     title: 'Fundraising Organizer',
     company: 'Durham Employment and Newcomer Centre',
     duration: '2:00',
-    tag: 'Leadership & Community',
+    tag: 'Project Management, Leadership',
     color: '#1a2744',
     link: 'https://your-company-url.com',
     views: '2 months',
@@ -197,7 +197,7 @@ const experiences: Experience[] = [
     title: 'Competitions Organizer',
     company: 'MIST Toronto',
     duration: '12:44',
-    tag: 'Leadership & Community',
+    tag: 'Project Management & Community',
     color: '#0f2233',
     link: 'https://your-company-url.com',
     views: '1 year',
@@ -229,6 +229,7 @@ const PROJECT_CHIPS = [
 const EXPERIENCE_CHIPS = [
   { label: 'All', value: 'all' },
   { label: 'Product Management', value: 'Product Management' },
+  { label: 'Project Management', value: 'Project Management' },
   { label: 'Engineering', value: 'Engineering' },
   { label: 'Leadership & Community', value: 'Leadership & Community' },
 ];
@@ -1038,7 +1039,7 @@ function App() {
               <span>·</span>
               <span>SWE</span>
               <span>·</span>
-              <span>3rd year · Computer Engineering</span>
+              <span> 3rd Year Computer Engineering</span>
               <span>·</span>
               <span className="text-green-400">● Open to work</span>
             </div>
@@ -1091,7 +1092,7 @@ function App() {
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
                   Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about solving problems, software engineering, and applying AI to build things people actually want to use.
+                  Toronto Metropolitan University. Passionate about solving problems, software engineering, collaborating, and applying AI to build things people actually want to use.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
@@ -1125,7 +1126,7 @@ function App() {
                 <span className="text-xs uppercase tracking-widest" style={{ color: textAccent }}>Areas of Focus</span>
                 <div className="mt-4 flex flex-col gap-9">
                   {[
-                    { label: 'Product Management', width: 91.67 },
+                    { label: 'Product & Project Management', width: 91.67 },
                     { label: 'AI/ Machine Learning', width: 90 },
                     { label: 'Full Stack / Web Dev', width: 76 },
 
