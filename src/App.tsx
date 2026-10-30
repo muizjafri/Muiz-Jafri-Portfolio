@@ -14,6 +14,8 @@ import resume from './assets/ProductManagementMuizJ.pdf';
 import DENC from './assets/DENC.png';
 import V4TMU from './assets/vision4all.png';
 import Toronto from './assets/Toronto.png';
+import WorldiCook from './assets/WorldiCook.png';
+import AuctionFinch from './assets/AuctionFinchimage.png';
 const EMAILJS_SERVICE_ID = 'service_ced8a35';
 const EMAILJS_TEMPLATE_ID = 'template_ew2y7gi';
 const EMAILJS_PUBLIC_KEY = 'dbAiIXD2czrnQxLgZ';
@@ -54,7 +56,23 @@ interface Experience {
 
 const projects: Project[] = [
   {
-    id: 1,
+        id: 1,
+    src: WorldiCook,
+    title: 'WorldiCook',
+    duration: '1:42',
+    author: 'Muiz Jafri',
+    tag: [],
+    language: ['React Native', 'JavaScript', 'NodeJs',   'PostGreSQL'],
+    color: '#1a2744',
+    link: 'https://youtu.be/lVE4nV1knP8',
+    repo: 'https://github.com/muizjafri/WorldiCook',
+    views: '1.2k views',
+    ago: '2025',
+    description:
+      'WorldiCook is a web application that allows users to discover and share recipes from around the world. It uses a combination of React and TypeScript for the frontend, served through a FastAPI backend, and integrates with various food APIs to provide users with a rich culinary experience. Check the video below to see how it works!',
+  },
+  {
+    id: 2,
     src: TypingTest,
     title: 'TypeForge',
     duration: '11:42',
@@ -70,7 +88,7 @@ const projects: Project[] = [
       'TypeForge is an AI powered typing test that can generate custom passages in real time based on any theme described. This is built with React and TypeScript frontend served through a FastAPI backend and uses Groq API to run Llama 3.3 to instantly generate themed words. Check the video below to see how it works!',
   },
   {
-    id: 2,
+    id: 3,
     src: objectDetection,
     title: 'VisionAI',
     duration: '12:44',
@@ -86,7 +104,7 @@ const projects: Project[] = [
       'VisionAI is a real time object detection web app where users can scan their surroundings and receive AI generated fun facts and advice from what the camera sees. Used Grounding DINO for object detection and Llama from the Hugging Face Inference API. I used Flask to build and serve the web application. Check the video below to see how it works!',
   },
   {
-    id: 3,
+    id: 4,
     src: SimonGame,
     title: 'Simon Game',
     duration: '2:17',
@@ -102,7 +120,7 @@ const projects: Project[] = [
       'Simple Simon game built with vanilla JavaScript, HTML and CSS. Check the video below to see how it works!',
   },
   {
-    id: 4,
+    id: 5,
     src: EmailFinderio,
     title: 'EmailFinderio',
     duration: '6:47',
@@ -118,7 +136,7 @@ const projects: Project[] = [
       'EmailFinderio is a web application that helps users find email addresses of professionals using the Hunter.io API. Check the video below to see how it works!',
   },
   {
-    id: 5,
+    id: 6,
     src: Goku,
     title: 'Gold-Price-Prediction ML model (In Progress)',
     duration: '6:47',
@@ -134,7 +152,7 @@ const projects: Project[] = [
       'Using historical gold price data, I built a machine learning model to predict future gold prices. I used various regression algorithms and compared their performance to find the best fit for the data.',
   },
   {
-    id: 6,
+    id: 7,
     src: Goku,
     title: 'Plant Classification Neural Network (In Progress)',
     duration: '6:47',
@@ -154,6 +172,19 @@ const projects: Project[] = [
 const experiences: Experience[] = [
     {
     id: 1,
+    src: AuctionFinch,
+    title: 'Co-Founder',
+    company: 'AuctionFinch',
+    duration: '20:24',
+    tag: 'Product Management, Leadership, Project Management',
+    color: '#1a2744',
+    link: 'https://your-company-url.com',
+    views: 'Present',
+    ago: 'Aug 2026 – Present',
+    description: 'Led fundraising and awareness initiatives by improving how our team tracked donor engagement. Built simple systems to organize outreach data, identify trends, and help the team focus on the campaigns that would have the biggest impact.'
+  },
+    {
+    id: 2,
     src: V4TMU,
     title: 'Vice-President of Events',
     company: 'Vision4All TMU',
@@ -166,7 +197,7 @@ const experiences: Experience[] = [
     description: 'Led fundraising and awareness initiatives by improving how our team tracked donor engagement. Built simple systems to organize outreach data, identify trends, and help the team focus on the campaigns that would have the biggest impact.'
   },
   {
-    id: 2,
+    id: 3,
     src: DENC,
     title: 'Fundraising Organizer',
     company: 'Durham Employment and Newcomer Centre',
@@ -179,7 +210,7 @@ const experiences: Experience[] = [
     description: 'Managed fundraising data across 100+ donors and sponsors by creating dashboards that made campaign performance easier to understand. Used those insights to help prioritize outreach efforts and improve coordination across the team.'
   },
   {
-    id: 3,
+    id: 4,
     src: Placeholder,
     title: 'Technical Systems',
     company: 'Air Hawk Solutions',
@@ -192,7 +223,7 @@ const experiences: Experience[] = [
     description: 'Worked on an autonomous drone platform by building AI pipelines for processing sensor data and supporting real-time object detection. Collaborated across hardware and software, balancing model performance, system constraints, and project timelines to deliver reliable solutions.',
   },
   {
-    id: 4,
+    id: 5,
     src: MIST,
     title: 'Competitions Organizer',
     company: 'MIST Toronto',
@@ -205,7 +236,7 @@ const experiences: Experience[] = [
     description: 'Coordinated academic competitions by working with judges, volunteers, and event organizers throughout the planning process. Balanced changing priorities, solved logistical challenges, and helped ensure events ran smoothly from start to finish.',
   },
   {
-    id: 5,
+    id: 6,
     src: Pickering,
     title: 'Integration Camp Counsellor',
     company: 'City of Pickering',
@@ -297,12 +328,12 @@ function ThemeToggle({ isDark, onToggle }: { isDark: boolean; onToggle: () => vo
 
 function ChannelBanner({ isDark }: { isDark: boolean }) {
   return (
-    <div className="w-full relative overflow-hidden rounded-xl mx-auto" style={{ height: '180px' }}>
+    <div className="w-full relative overflow-hidden rounded-xl mx-auto" style={{ height: '220px' }}>
       <img
         src={Toronto}
         alt="Toronto skyline"
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ objectPosition: 'center 45%' }}
+        style={{ objectPosition: 'center 40%' }}
       />
 
       <div
@@ -331,7 +362,7 @@ function ChannelBanner({ isDark }: { isDark: boolean }) {
             textShadow: '0 2px 24px rgba(0,0,0,0.6)',
           }}
         >
-          CAN Citizen · Toronto
+           
         </h1>
       </div>
     </div>
@@ -1030,7 +1061,7 @@ function App() {
           <div className="flex-1">
             <h1 className="text-3xl font-bold" style={{ color: textPrimary }}>Muiz Jafri</h1>
             <p className="text-sm mt-1" style={{ color: textMuted }}>
-              Third-year Computer Engineering student at Toronto Metropolitan University.
+               Computer Engineering student at Toronto Metropolitan University.
             </p>
             <div className="flex gap-4 mt-2 text-sm flex-wrap" style={{ color: textMuted }}>
               <span>Technical Product & Project Management</span>
@@ -1039,7 +1070,7 @@ function App() {
               <span>·</span>
               <span>SWE</span>
               <span>·</span>
-              <span> 3rd Year Computer Engineering</span>
+              <span>Computer Engineering</span>
               <span>·</span>
               <span className="text-green-400">● Open to work</span>
             </div>
@@ -1091,15 +1122,15 @@ function App() {
               <div className="md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-40" style={{ background: cardBg, border: `1px solid ${cardBorder}` }}>
                 <span className="text-xs uppercase tracking-widest mb-3" style={{ color: textAccent }}>// who am i</span>
                 <p className="text-sm leading-relaxed" style={{ color: isDark ? '#d1d5db' : '#374151' }}>
-                  Third-year <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
-                  Toronto Metropolitan University. Passionate about solving problems, software engineering, collaborating, and applying AI to build things people actually want to use.
+                  Hey! My name is Muiz Jafri, and I'm a <span className="font-semibold" style={{ color: textPrimary }}>Computer Engineering</span> student at
+                  Toronto Metropolitan University. I am Passionate about solving problems, software engineering, collaborating, and applying AI to build things people actually want to use.
                 </p>
                 <p className="text-xs mt-4" style={{ color: isDark ? '#4b5563' : '#9ca3af' }}>Toronto, ON 🍁</p>
               </div>
               <div className="bg-blue-600 text-white rounded-2xl p-6 flex flex-col justify-between min-h-40">
                 <span className="text-xs text-blue-200 uppercase tracking-widest">Currently learning</span>
-                <p className="text-2xl font-bold leading-tight mt-2">Product<br />Discovery<br /></p>
-                <span className="text-blue-200 text-xs">User Research · Roadmapping · Collaboration </span>
+                <p className="text-2xl font-bold leading-tight mt-5">Skateboarding!<br /><br /></p>
+               
               </div>
             </div>
           </Reveal>
