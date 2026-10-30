@@ -64,7 +64,7 @@ const projects: Project[] = [
     tag: [],
     language: ['React Native', 'JavaScript', 'NodeJs',   'PostGreSQL'],
     color: '#1a2744',
-    link: 'https://youtu.be/lVE4nV1knP8',
+    link: 'https://www.youtube.com/@MuizJProjects',
     repo: 'https://github.com/muizjafri/WorldiCook',
     views: '1.2k views',
     ago: '2025',
@@ -181,7 +181,7 @@ const experiences: Experience[] = [
     link: 'https://your-company-url.com',
     views: 'Present',
     ago: 'Aug 2026 – Present',
-    description: 'Led fundraising and awareness initiatives by improving how our team tracked donor engagement. Built simple systems to organize outreach data, identify trends, and help the team focus on the campaigns that would have the biggest impact.'
+    description: 'Coordinated day-to-day operations by organizing supplier shipments, inventory workflows, and customer pickups. Worked with developers to track platform issues, clarify requirements, and improve how product and shipment information was managed.'
   },
     {
     id: 2,
